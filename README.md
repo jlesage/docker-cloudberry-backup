@@ -1,5 +1,6 @@
 # Docker container for CloudBerry Backup
 [![](https://images.microbadger.com/badges/image/jlesage/cloudberry-backup.svg)](http://microbadger.com/#/images/jlesage/cloudberry-backup "Get your own image badge on microbadger.com")
+[![Build Status](https://travis-ci.org/jlesage/docker-cloudberry-backup.svg?branch=master)](https://travis-ci.org/jlesage/docker-cloudberry-backup)
 
 This is a Docker container for CloudBerry Backup.  The GUI of the application is
 accessed through a modern web browser (no installation or configuration needed

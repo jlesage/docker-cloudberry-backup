@@ -42,6 +42,10 @@ RUN \
     ln -s /config/logs /opt/local/"CloudBerry Backup"/logs && \
     ln -s /config/HID /opt/local/"CloudBerry Backup"/share/HID && \
 
+    # Maximize only the main/initial window.
+    sed -i 's/<application type="normal">/<application type="normal" title="CloudBerry Backup">/' \
+        $HOME/.config/openbox/rc.xml && \
+
     # Cleanup.
     apk --no-cache del build-dependencies && \
     rm -rf /tmp/*

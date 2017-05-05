@@ -50,6 +50,10 @@ RUN \
     apk --no-cache del build-dependencies && \
     rm -rf /tmp/*
 
+# Install dependencies.
+RUN apk --no-cache add \
+    ca-certificates
+
 # Add files.
 COPY rootfs/ /
 

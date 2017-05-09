@@ -54,6 +54,10 @@ RUN \
 RUN apk --no-cache add \
     ca-certificates
 
+# Generate and install favicons.
+ARG APP_ICON_URL=https://github.com/jlesage/docker-templates/raw/master/jlesage/images/cloudberry-backup-icon.png
+RUN /opt/generate_favicons.sh "$APP_ICON_URL"
+
 # Add files.
 COPY rootfs/ /
 

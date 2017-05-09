@@ -7,7 +7,7 @@ on client side) or via any VNC client.
 
 ---
 
-[![CloudBerry Backup logo](https://www.cloudberrylab.com/images/logos/logo-backup.png)](https://www.cloudberrylab.com/backup/linux.aspx)
+[![CloudBerry Backup logo](https://github.com/jlesage/docker-templates/raw/master/jlesage/images/cloudberry-backup-icon.png)](https://www.cloudberrylab.com/backup/linux.aspx)
 [![CloudBerry Backup](https://dummyimage.com/600x110/ffffff/575757&text=CloudBerry+Backup)](https://www.cloudberrylab.com/backup/linux.aspx)
 
 Backup files and folders to cloud storage of your choice: Amazon S3, Azure Blob Storage, Google Cloud Storage, HP Cloud, Rackspace Cloud Files, OpenStack, DreamObjects and other.

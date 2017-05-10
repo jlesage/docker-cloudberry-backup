@@ -151,23 +151,3 @@ be done via two methods:
 
 **NOTE**: This is a very basic way to restrict access to the application and it
 should not be considered as secure in any way.
-
-## Registration
-
-### Home/Freeware Edition
-
-If you are not able to copy-paste the registration key you received by email,
-try to access CloudBerry Backup with a VNC client instead of a web browser.
-If this still doesn't work, you can manually install the registration key.
-Create these two files with the same information you used during the
-registration:
-
-In `/<Configuration directory on host>/etc/config/.LicenseMail`:
-```
-email : [PUT_YOUR_EMAIL_HERE]
-```
-
-In `/<Configuration directory on host/etc/config/.License`:
-```
-FREE<UserName>[PUT_YOUR_NAME_HERE]</UserName><Signature>[PUT_YOUR_REGISTRATION_KEY_HERE]</Signature>
-```

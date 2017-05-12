@@ -20,7 +20,7 @@ example, `/docker/appdata/cloudberry-backup` is used.  To backup files located
 under your home directory, launch the CloudBerry Backup docker container with the
 following command:
 ```
-docker run -d \
+docker run -d --rm \
     --name=cloudberry-backup \
     -p 5800:5800 \
     -p 5900:5900 \
@@ -34,7 +34,7 @@ home directories and files appear under the `/storage` folder in the container.
 
 ## Usage
 ```
-docker run [-d|--rm] \
+docker run [-d] [--rm] \
     --name=cloudberry-backup \
     [-e <VARIABLE_NAME>=<VALUE>]... \
     [-v <HOST_DIR>:<CONTAINER_DIR>[:PERMISSIONS]]... \

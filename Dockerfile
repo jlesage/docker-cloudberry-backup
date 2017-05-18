@@ -5,7 +5,7 @@
 #
 
 # Pull base image.
-FROM jlesage/baseimage-gui:alpine-3.5-glibc-v1.3.0
+FROM jlesage/baseimage-gui:alpine-3.5-glibc-v1.3.1
 
 # Define working directory.
 WORKDIR /tmp

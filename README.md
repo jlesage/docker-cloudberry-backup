@@ -7,8 +7,7 @@ The GUI of the application is accessed through a modern web browser (no installa
 
 ---
 
-[![CloudBerry Backup logo](https://images.weserv.nl/?url=raw.githubusercontent.com/jlesage/docker-templates/master/jlesage/images/cloudberry-backup-icon.png&w=200)](https://www.cloudberrylab.com/backup/linux.aspx)
-[![CloudBerry Backup](https://dummyimage.com/400x110/ffffff/575757&text=CloudBerry+Backup)](https://www.cloudberrylab.com/backup/linux.aspx)
+[![CloudBerry Backup logo](https://images.weserv.nl/?url=raw.githubusercontent.com/jlesage/docker-templates/master/jlesage/images/cloudberry-backup-icon.png&w=200)](https://www.cloudberrylab.com/backup/linux.aspx)[![CloudBerry Backup](https://dummyimage.com/400x110/ffffff/575757&text=CloudBerry+Backup)](https://www.cloudberrylab.com/backup/linux.aspx)
 
 Backup files and folders to cloud storage of your choice: Amazon S3, Azure Blob Storage, Google Cloud Storage, HP Cloud, Rackspace Cloud Files, OpenStack, DreamObjects and other.
 

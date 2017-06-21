@@ -1,38 +1,41 @@
 # Docker container for CloudBerry Backup
 [![Docker Automated build](https://img.shields.io/docker/automated/jlesage/cloudberry-backup.svg)](https://hub.docker.com/r/jlesage/cloudberry-backup/) [![](https://images.microbadger.com/badges/image/jlesage/cloudberry-backup.svg)](http://microbadger.com/#/images/jlesage/cloudberry-backup "Get your own image badge on microbadger.com") [![Build Status](https://travis-ci.org/jlesage/docker-cloudberry-backup.svg?branch=master)](https://travis-ci.org/jlesage/docker-cloudberry-backup)
 
-This is a Docker container for CloudBerry Backup.  The GUI of the application is
-accessed through a modern web browser (no installation or configuration needed
-on client side) or via any VNC client.
+This is a Docker container for CloudBerry Backup.
+
+The GUI of the application is accessed through a modern web browser (no installation or configuration needed on client side) or via any VNC client.
 
 ---
 
-[![CloudBerry Backup logo](https://github.com/jlesage/docker-templates/raw/master/jlesage/images/cloudberry-backup-icon.png)](https://www.cloudberrylab.com/backup/linux.aspx)
-[![CloudBerry Backup](https://dummyimage.com/600x110/ffffff/575757&text=CloudBerry+Backup)](https://www.cloudberrylab.com/backup/linux.aspx)
+[![CloudBerry Backup logo](https://images.weserv.nl/?url=raw.githubusercontent.com/jlesage/docker-templates/master/jlesage/images/cloudberry-backup-icon.png&w=200)](https://www.cloudberrylab.com/backup/linux.aspx)
+[![CloudBerry Backup](https://dummyimage.com/400x110/ffffff/575757&text=CloudBerry Backup)](https://www.cloudberrylab.com/backup/linux.aspx)
 
 Backup files and folders to cloud storage of your choice: Amazon S3, Azure Blob Storage, Google Cloud Storage, HP Cloud, Rackspace Cloud Files, OpenStack, DreamObjects and other.
 
 ---
 
 ## Quick Start
-First create the configuration directory for CloudBerry Backup.  In this
-example, `/docker/appdata/cloudberry-backup` is used.  To backup files located
-under your home directory, launch the CloudBerry Backup docker container with the
-following command:
+
+Launch the CloudBerry Backup docker container with the following command:
 ```
 docker run -d --rm \
     --name=cloudberry-backup \
     -p 5800:5800 \
     -p 5900:5900 \
-    -v /var/docker/cloudberry-backup:/config \
+    -v /docker/appdata/cloudberry-backup:/config:rw \
     -v $HOME:/storage:ro \
     jlesage/cloudberry-backup
 ```
 
-Browse to `http://your-host-ip:5800` to access the CloudBerry Backup GUI.  Your
-home directories and files appear under the `/storage` folder in the container.
+Where:
+  - `/docker/appdata/cloudberry-backup`: This is where the application stores its configuration, log and any files needing persistency.
+  - `$HOME`: This location contains files from your host that need to be accessible by the application.
+
+Browse to `http://your-host-ip:5800` to access the CloudBerry Backup GUI.  Files from
+the host appear under the `/storage` folder in the container.
 
 ## Usage
+
 ```
 docker run [-d] [--rm] \
     --name=cloudberry-backup \
@@ -57,16 +60,14 @@ of this parameter has the format `<VARIABLE_NAME>=<VALUE>`.
 
 | Variable       | Description                                  | Default |
 |----------------|----------------------------------------------|---------|
-|`USER_ID`       | ID of the user the application runs as.  See [User/Group IDs](#usergroup-ids) to better understand when this should be set. | 1000    |
-|`GROUP_ID`      | ID of the group the application runs as.  See [User/Group IDs](#usergroup-ids) to better understand when this should be set. | 1000    |
-|`TZ`            | [TimeZone] of the container.  Timezone can also be set by mapping `/etc/localtime` between the host and the container. | Etc/UTC |
-|`DISPLAY_WIDTH` | Width (in pixels) of the display.             | 1280    |
-|`DISPLAY_HEIGHT`| Height (in pixels) of the display.            | 768     |
-|`VNC_PASSWORD`  | Password needed to connect to the application's GUI.  See the [VNC Pasword](#vnc-password) section for more details. | (unset) |
-|`KEEP_GUIAPP_RUNNING`| When set to `1`, the application will be automatically restarted if it crashes or if user quits it. | (unset) |
-|`APP_NICENESS`  | Priority at which the application should run.  A niceness value of −20 is the highest priority and 19 is the lowest priority.  By default, niceness is not set, meaning that the default niceness of 0 is used.  **NOTE**: A negative niceness (priority increase) requires additional permissions.  In this case, the container should be run with the docker option `--cap-add=SYS_NICE`. | (unset) |
-
-[TimeZone]: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+|`USER_ID`| ID of the user the application runs as.  See [User/Group IDs](#usergroup-ids) to better understand when this should be set. | `1000` |
+|`GROUP_ID`| ID of the group the application runs as.  See [User/Group IDs](#usergroup-ids) to better understand when this should be set. | `1000` |
+|`TZ`| [TimeZone] of the container.  Timezone can also be set by mapping `/etc/localtime` between the host and the container. | `Etc/UTC` |
+|`DISPLAY_WIDTH`| Width (in pixels) of the application's window. | `1280` |
+|`DISPLAY_HEIGHT`| Height (in pixels) of the application's window. | `768` |
+|`VNC_PASSWORD`| Password needed to connect to the application's GUI.  See the [VNC Pasword](#vnc-password) section for more details. | (unset) |
+|`KEEP_GUIAPP_RUNNING`| When set to `1`, the application will be automatically restarted if it crashes or if user quits it. | `0` |
+|`APP_NICENESS`| Priority at which the application should run.  A niceness value of -20 is the highest priority and 19 is the lowest priority.  By default, niceness is not set, meaning that the default niceness of 0 is used.  **NOTE**: A negative niceness (priority increase) requires additional permissions.  In this case, the container should be run with the docker option `--cap-add=SYS_NICE`. | (unset) |
 
 ### Data Volumes
 
@@ -76,8 +77,8 @@ format: `<HOST_DIR>:<CONTAINER_DIR>[:PERMISSIONS]`.
 
 | Container path  | Permissions | Description |
 |-----------------|-------------|-------------|
-|`/config`        | rw          | This is where the application stores its configuration, log and any files needing persistency. |
-|`/storage`       | ro          | This is where files that need to be backup are located. |
+|`/config`| rw | This is where the application stores its configuration, log and any files needing persistency. |
+|`/storage`| ro | This location contains files from your host that need to be accessible by the application. |
 
 ### Ports
 
@@ -88,8 +89,8 @@ container cannot be changed, but you are free to use any port on the host side.
 
 | Port | Mapping to host | Description |
 |------|-----------------|-------------|
-| 5800 | Mandatory       | Port used to access the application's GUI via the web interface. |
-| 5900 | Mandatory       | Port used to access the application's GUI via the VNC protocol.  |
+| 5800 | Mandatory | Port used to access the application's GUI via the web interface. |
+| 5900 | Mandatory | Port used to access the application's GUI via the VNC protocol. |
 
 ## User/Group IDs
 

@@ -43,6 +43,18 @@ from Jinja2 templates.
     <!-- Changelog of the application. -->
     <history>
       <release>
+        <version>1.2.0</version>
+        <date>2017-06-21</date>
+        <change>Upgraded CloudBerry Backup to version 2.0.2.39.</change>
+        <change>Now using baseimage v1.4.2, which brings the following changes (from last used version):</change>
+        <change level="2">Associate the application's icon to a unique version to avoid browser cache issues.</change>
+        <change level="2">Fixed prefix of some service related messages.</change>
+        <change level="2">Added support for supplying supplementary groups of the application.</change>
+        <change level="2">Improved process startup and shutdown.</change>
+        <change level="2">When container is stopped or restarted, processes are now terminated gracefully and in proper order. This allow the GUI application to execute its termination routine.</change>
+        <change level="2">No more error messages when container is stopped or restarted.</change>
+      </release>
+      <release>
         <version>1.1.2</version>
         <date>2017-05-30</date>
         <change>Now using baseimage v1.3.2, which brings the following changes:</change>

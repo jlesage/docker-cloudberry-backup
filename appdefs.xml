@@ -1,0 +1,87 @@
+<!--
+Definitions for CloudBerry Backup docker container.
+
+This file is used as data source to generate README.md and unRAID template files
+from Jinja2 templates.
+-->
+<app>
+    <id>2</id>
+    <friendly_name>CloudBerry Backup</friendly_name>
+    <name>{{ app.friendly_name|lower|replace(' ', '-') }}</name>
+    <project>
+      <description>Backup files and folders to cloud storage of your choice: Amazon S3, Azure Blob Storage, Google Cloud Storage, HP Cloud, Rackspace Cloud Files, OpenStack, DreamObjects and other.</description>
+      <url>https://www.cloudberrylab.com/backup/linux.aspx</url>
+    </project>
+    <unraid>
+      <support_url>https://forums.lime-technology.com/topic/57217-support-cloudberry-backup/</support_url>
+      <category>Backup:</category>
+    </unraid>
+    <container>
+      <rough_download_size>60MB</rough_download_size>
+      <storage_permissions>ro</storage_permissions>
+      <!-- Environment variables -->
+      <!-- Volumes -->
+      <volume>
+        <container_path>/flash</container_path>
+        <host_path_example/>
+        <description/>
+        <permissions>ro</permissions>
+        <unraid_template>
+          <title>Flash</title>
+          <description>This is where data on your unRAID flash device is located.  Useful to backup your unRAID configuration.[br]Container path: /flash</description>
+          <default>/boot</default>
+          <display>always</display>
+          <required>false</required>
+          <mask>false</mask>
+        </unraid_template>
+      </volume>
+      <!-- Network ports -->
+      <!-- Devices -->
+    </container>
+    <!-- Extra stuff to be added to the documentation. -->
+    <documentation/>
+    <!-- Changelog of the application. -->
+    <history>
+      <release>
+        <version>1.1.2</version>
+        <date>2017-05-30</date>
+        <change>Now using baseimage v1.3.2, which brings the following changes:</change>
+        <change level="2">Fixed password modal window not showing up when required.</change>
+      </release>
+      <release>
+        <version>1.1.1</version>
+        <date>2017-05-17</date>
+        <change>Now using baseimage v1.3.1, which brings the following changes:</change>
+        <change level="2">Better font is used.</change>
+      </release>
+      <release>
+        <version>1.1.0</version>
+        <date>2017-05-15</date>
+        <change>Now using baseimage v1.3.0, which brings the following changes:</change>
+        <change level="2">Added support for application's niceness configuration.</change>
+      </release>
+      <release>
+        <version>1.0.3</version>
+        <date>2017-05-12</date>
+        <change>Now using baseimage v1.2.3, which brings the following changes:</change>
+        <change level="2">Adjusted the default display width to 1280 pixels, as documented.</change>
+      </release>
+      <release>
+        <version>1.0.2</version>
+        <date>2017-05-11</date>
+        <change>Now using baseimage v1.2.2, which brings the following changes:</change>
+        <change level="2">Fixed issue with the web UI, where the remote application's window was not taking the available height after activating/deactivating the hideable navigation bar.</change>
+      </release>
+      <release>
+        <version>1.0.1</version>
+        <date>2017-05-10</date>
+        <change>Now using baseimage v1.2.1, which brings the following changes:</change>
+        <change level="2">Fixed issue where clipboard content was lost on modal window closure.</change>
+      </release>
+      <release>
+        <version>1.0.0</version>
+        <date>2017-05-09</date>
+        <change>Initial release.</change>
+      </release>
+    </history>
+</app>

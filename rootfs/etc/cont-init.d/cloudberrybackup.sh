@@ -22,11 +22,11 @@ then
     cat /proc/sys/kernel/random/uuid > /config/HID
 fi
 
-# Check if an upgrade is needed.
+# Check if a configuration upgrade is needed.
 CUR_VERSION="$(cat /opt/local/"CloudBerry Backup"/etc/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
 NEW_VERSION="$(cat /opt/local/"CloudBerry Backup"/etc.default/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
 if [ "$CUR_VERSION" != "$NEW_VERSION" ]; then
-    echo "Upgrading CloudBerry Backup from version $CUR_VERSION to $NEW_VERSION..."
+    echo "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
     cp /opt/local/"CloudBerry Backup"/etc.default/config/cloudBackup.conf /config/etc/config/cloudBackup.conf
     /opt/local/"CloudBerry Backup"/bin/cbbUpdater
 fi

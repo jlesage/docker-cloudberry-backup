@@ -5,7 +5,7 @@
 #
 
 # Pull base image.
-FROM jlesage/baseimage-gui:alpine-3.6-glibc-v1.5.0
+FROM jlesage/baseimage-gui:alpine-3.6-glibc-v2.0.0
 
 # Define working directory.
 WORKDIR /tmp
@@ -13,7 +13,7 @@ WORKDIR /tmp
 # Install CloudBerry Backup.
 RUN \
     # Install packages needed by the build.
-    apk --no-cache add --virtual build-dependencies binutils curl bash && \
+    add-pkg --virtual build-dependencies binutils curl bash && \
 
     # Download the CloudBerry Backup package.
     echo "Downloading CloudBerry Backup package..." && \
@@ -31,10 +31,11 @@ RUN \
     ./postinst && \
 
     # Modify installed scripts to use sh instead of bash.
-    sed -i 's/^#!\/bin\/bash/#!\/bin\/sh/' /opt/local/CloudBerry\ Backup/bin/* && \
+    sed-patch 's/^#!\/bin\/bash/#!\/bin\/sh/' /opt/local/CloudBerry\ Backup/bin/* && \
 
     # Save default configuration.
-    mv /opt/local/"CloudBerry Backup"/etc /opt/local/"CloudBerry Backup"/etc.default && \
+    mkdir -p /defaults && \
+    mv /opt/local/"CloudBerry Backup"/etc /defaults/cbb_etc && \
 
     # Setup symbolic links for stuff that need to be outside the container.
     ln -s /config/etc /opt/local/"CloudBerry Backup"/etc && \
@@ -43,20 +44,20 @@ RUN \
     ln -s /config/HID /opt/local/"CloudBerry Backup"/share/HID && \
 
     # Maximize only the main/initial window.
-    sed -i 's/<application type="normal">/<application type="normal" title="CloudBerry Backup">/' \
-        $HOME/.config/openbox/rc.xml && \
+    sed-patch 's/<application type="normal">/<application type="normal" title="CloudBerry Backup">/' \
+        /etc/xdg/openbox/rc.xml && \
 
     # Cleanup.
-    apk --no-cache del build-dependencies && \
+    del-pkg build-dependencies && \
     rm -rf /tmp/*
 
 # Install dependencies.
-RUN apk --no-cache add \
+RUN add-pkg \
     ca-certificates
 
 # Generate and install favicons.
 ARG APP_ICON_URL=https://github.com/jlesage/docker-templates/raw/master/jlesage/images/cloudberry-backup-icon.png
-RUN /opt/install_app_icon.sh "$APP_ICON_URL"
+RUN install_app_icon.sh "$APP_ICON_URL"
 
 # Add files.
 COPY rootfs/ /

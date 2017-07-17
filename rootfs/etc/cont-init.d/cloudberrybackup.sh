@@ -11,7 +11,7 @@ cat /proc/sys/kernel/random/uuid | tr -d '-' > /etc/machine-id
 if [ ! -d /config/etc ]
 then
     echo "CloudBerry Backup config not found, copying default one..."
-    cp -pr /opt/local/"CloudBerry Backup"/etc.default /config/etc
+    cp -pr /defaults/cbb_etc /config/etc
     /opt/local/"CloudBerry Backup"/bin/cbbUpdater
 fi
 
@@ -24,10 +24,10 @@ fi
 
 # Check if a configuration upgrade is needed.
 CUR_VERSION="$(cat /opt/local/"CloudBerry Backup"/etc/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
-NEW_VERSION="$(cat /opt/local/"CloudBerry Backup"/etc.default/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
+NEW_VERSION="$(cat /defaults/cbb_etc/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
 if [ "$CUR_VERSION" != "$NEW_VERSION" ]; then
     echo "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
-    cp /opt/local/"CloudBerry Backup"/etc.default/config/cloudBackup.conf /config/etc/config/cloudBackup.conf
+    cp /defaults/cbb_etc/config/cloudBackup.conf /config/etc/config/cloudBackup.conf
     /opt/local/"CloudBerry Backup"/bin/cbbUpdater
 fi
 

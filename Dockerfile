@@ -13,7 +13,7 @@ WORKDIR /tmp
 # Install CloudBerry Backup.
 RUN \
     # Install packages needed by the build.
-    add-pkg --virtual build-dependencies binutils curl bash && \
+    add-pkg --virtual build-dependencies dpkg tar curl bash && \
 
     # Download the CloudBerry Backup package.
     echo "Downloading CloudBerry Backup package..." && \
@@ -23,12 +23,11 @@ RUN \
         https://www.cloudberrylab.com/download-thanks.aspx && \
 
     # Extract the CloudBerry Backup package.
-    ar vx cloudberry-backup.deb && \
-    tar xf control.tar.gz && \
-    tar xf data.tar.gz -C / && \
+    dpkg-deb --raw-extract cloudberry-backup.deb cbbout && \
+    mv cbbout/opt/* /opt/ && \
 
     # Install CloudBerry Backup.
-    ./postinst && \
+    ./cbbout/DEBIAN/postinst && \
 
     # Modify installed scripts to use sh instead of bash.
     sed-patch 's/^#!\/bin\/bash/#!\/bin\/sh/' /opt/local/CloudBerry\ Backup/bin/* && \

@@ -27,6 +27,11 @@ from Jinja2 templates.
     <!-- Changelog of the application. -->
     <history>
       <release>
+        <version>1.5.6</version>
+        <date>2017-08-28</date>
+        <change>Upgraded CloudBerry Backup to version 2.0.3.25.</change>
+      </release>
+      <release>
         <version>1.5.5</version>
         <date>2017-08-14</date>
         <change>Now using baseimage v2.0.6, which brings the following changes:</change>

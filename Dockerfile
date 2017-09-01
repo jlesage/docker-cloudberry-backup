@@ -62,7 +62,7 @@ RUN install_app_icon.sh "$APP_ICON_URL"
 COPY rootfs/ /
 
 # Set environment variables.
-ENV APP_NAME="Cloudberry Backup"
+ENV APP_NAME="CloudBerry Backup"
 
 # Define mountable directories.
 VOLUME ["/config"]

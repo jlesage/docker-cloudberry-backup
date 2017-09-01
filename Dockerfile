@@ -30,7 +30,7 @@ RUN \
     ./cbbout/DEBIAN/postinst && \
 
     # Modify installed scripts to use sh instead of bash.
-    sed-patch 's/^#!\/bin\/bash/#!\/bin\/sh/' /opt/local/CloudBerry\ Backup/bin/* && \
+    find /opt/local/CloudBerry\ Backup/bin/ -exec sed-patch 's/^#!\/bin\/bash/#!\/bin\/sh/' {} \; && \
 
     # Save default configuration.
     mkdir -p /defaults && \

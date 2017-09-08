@@ -27,6 +27,13 @@ from Jinja2 templates.
     <!-- Changelog of the application. -->
     <history>
       <release>
+        <version>1.5.8</version>
+        <date>2017-09-08</date>
+        <change>Now using baseimage v2.0.8, which brings the following changes:</change>
+        <change level="2">Fixed duplicated entries in /etc/passwd and /etc/group that were created after a restart of the container.</change>
+        <change>Upgraded CloudBerry Backup to version 2.0.3.30.</change>
+      </release>
+      <release>
         <version>1.5.7</version>
         <date>2017-09-06</date>
         <change>Now using baseimage v2.0.7, which brings the following changes:</change>

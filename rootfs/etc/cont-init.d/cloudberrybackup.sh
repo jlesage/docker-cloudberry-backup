@@ -3,14 +3,18 @@
 set -e # Exit immediately if a command exits with a non-zero status.
 set -u # Treat unset variables as an error.
 
+log() {
+    echo "[cont-init.d] $(basename $0): $*"
+}
+
 # Generate machine id
-echo "Generating machine-id..."
+log "Generating machine-id..."
 cat /proc/sys/kernel/random/uuid | tr -d '-' > /etc/machine-id
 
 # Copy default config if needed.
 if [ ! -d /config/etc ]
 then
-    echo "CloudBerry Backup config not found, copying default one..."
+    log "CloudBerry Backup config not found, copying default one..."
     cp -pr /defaults/cbb_etc /config/etc
     /opt/local/"CloudBerry Backup"/bin/cbbUpdater
 fi
@@ -18,7 +22,7 @@ fi
 # Generate HID if needed
 if [ ! -f /config/HID ]
 then
-    echo "Generating HID..."
+    log "Generating HID..."
     cat /proc/sys/kernel/random/uuid > /config/HID
 fi
 
@@ -26,7 +30,7 @@ fi
 CUR_VERSION="$(cat /opt/local/"CloudBerry Backup"/etc/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
 NEW_VERSION="$(cat /defaults/cbb_etc/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
 if [ "$CUR_VERSION" != "$NEW_VERSION" ]; then
-    echo "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
+    log "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
     cp /defaults/cbb_etc/config/cloudBackup.conf /config/etc/config/cloudBackup.conf
     /opt/local/"CloudBerry Backup"/bin/cbbUpdater
 fi

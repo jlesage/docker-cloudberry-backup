@@ -66,6 +66,14 @@ file is deleted.
     <!-- Changelog of the application. -->
     <history>
       <release>
+        <version>1.6.0</version>
+        <date>2017-09-20</date>
+        <change>Now using baseimage v2.0.9, which brings the following changes:</change>
+        <change level="2">Restore default `/etc/shadow` during container startup.</change>
+        <change>Upgraded CloudBerry Backup to version 2.1.0.81.</change>
+        <change>Added support for the new CloudBerry Backup native web interface.</change>
+      </release>
+      <release>
         <version>1.5.8</version>
         <date>2017-09-08</date>
         <change>Now using baseimage v2.0.8, which brings the following changes:</change>

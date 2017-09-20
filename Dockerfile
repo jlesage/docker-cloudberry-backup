@@ -27,6 +27,7 @@ RUN \
     mv cbbout/opt/* /opt/ && \
 
     # Install CloudBerry Backup.
+    sed-patch '/^#!\/bin\/bash/ a\\nfunction service {\n    :\n}\nfunction update-rc.d {\n    :\n}' cbbout/DEBIAN/postinst && \
     ./cbbout/DEBIAN/postinst && \
 
     # Modify installed scripts to use sh instead of bash.
@@ -42,6 +43,9 @@ RUN \
     ln -s /config/logs /opt/local/"CloudBerry Backup"/logs && \
     ln -s /config/HID /opt/local/"CloudBerry Backup"/share/HID && \
 
+    # Fix PAM authentication for web interface.
+    ln -s base-auth /etc/pam.d/common-auth && \
+
     # Maximize only the main/initial window.
     sed-patch 's/<application type="normal">/<application type="normal" title="CloudBerry Backup">/' \
         /etc/xdg/openbox/rc.xml && \
@@ -51,8 +55,11 @@ RUN \
     rm -rf /tmp/*
 
 # Install dependencies.
-RUN add-pkg \
-    ca-certificates
+RUN \
+    echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories && \
+    add-pkg \
+        ca-certificates \
+        mkpasswd@edge
 
 # Generate and install favicons.
 ARG APP_ICON_URL=https://github.com/jlesage/docker-templates/raw/master/jlesage/images/cloudberry-backup-icon.png
@@ -62,11 +69,18 @@ RUN install_app_icon.sh "$APP_ICON_URL"
 COPY rootfs/ /
 
 # Set environment variables.
-ENV APP_NAME="CloudBerry Backup"
+ENV APP_NAME="CloudBerry Backup" \
+    CBB_WEB_INTERFACE_USER= \
+    CBB_WEB_INTERFACE_PASSWORD=
 
 # Define mountable directories.
 VOLUME ["/config"]
 VOLUME ["/storage"]
+
+# Expose ports.
+#   - 43210: CloudBerry Backup web interface (HTTP).
+#   - 43211: CloudBerry Backup web interface (HTTPs).
+EXPOSE 43210 43211
 
 # Metadata.
 LABEL \

@@ -70,8 +70,8 @@ COPY rootfs/ /
 
 # Set environment variables.
 ENV APP_NAME="CloudBerry Backup" \
-    CBB_WEB_INTERFACE_USER= \
-    CBB_WEB_INTERFACE_PASSWORD=
+    CBB_WEB_INTERFACE_USER="" \
+    CBB_WEB_INTERFACE_PASSWORD=""
 
 # Define mountable directories.
 VOLUME ["/config"]

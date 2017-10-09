@@ -46,7 +46,7 @@ fi
 # Handle password for CloudBerry web interface.
 if [ "${CBB_WEB_INTERFACE_USER:-UNSET}" = "UNSET" ]; then
     log "CloudBerry Backup web interface not usable: No user name defined."
-elif id "$CBB_WEB_INTERFACE_USER" &>/dev/null; then
+elif id "$CBB_WEB_INTERFACE_USER" >/dev/null 2>&1; then
     log "CloudBerry Backup web interface not usable: User name '$CBB_WEB_INTERFACE_USER' is reserved."
 else
     if [ -f /config/.cbb_web_interface_pass_hash ]; then

@@ -231,4 +231,4 @@ file is deleted.
 Having troubles with the container or have questions?  Please
 [create a new issue].
 
-[open an issue]: https://github.com/jlesage/docker-cloudberry-backup/issues
+[create a new issue]: https://github.com/jlesage/docker-cloudberry-backup/issues

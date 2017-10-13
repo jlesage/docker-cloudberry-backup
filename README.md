@@ -225,3 +225,10 @@ saved to `/config/.cbb_web_interface_pass_hash`.  Then, the clear-text password
 file is deleted.
 
 [TimeZone]: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+
+## Support or Contact
+
+Having troubles with the container or have questions?  Please
+[create a new issue].
+
+[open an issue]: https://github.com/jlesage/docker-cloudberry-backup/issues

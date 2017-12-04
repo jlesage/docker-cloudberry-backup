@@ -7,6 +7,12 @@
 # Pull base image.
 FROM jlesage/baseimage-gui:alpine-3.6-glibc-v3.1.3
 
+# Define software versions.
+ARG CLOUDBERRYBACKUP_VERSION=2.2.0.76_20171128151128
+
+# Define software download URLs.
+ARG CLOUDBERRYBACKUP_URL=https://d1jra2eqc0c15l.cloudfront.net/ubuntu14_CloudBerryLab_CloudBerryBackup_v${CLOUDBERRYBACKUP_VERSION}.deb
+
 # Define working directory.
 WORKDIR /tmp
 
@@ -17,10 +23,7 @@ RUN \
 
     # Download the CloudBerry Backup package.
     echo "Downloading CloudBerry Backup package..." && \
-    curl -# -o cloudberry-backup.deb \
-        -F "__EVENTTARGET=" \
-        -F "prod=cbbub1214" \
-        https://www.cloudberrylab.com/download-thanks.aspx && \
+    curl -# -L -o cloudberry-backup.deb ${CLOUDBERRYBACKUP_URL} && \
 
     # Extract the CloudBerry Backup package.
     dpkg-deb --raw-extract cloudberry-backup.deb cbbout && \
@@ -31,7 +34,7 @@ RUN \
     ./cbbout/DEBIAN/postinst && \
 
     # Modify installed scripts to use sh instead of bash.
-    find /opt/local/CloudBerry\ Backup/bin/ -exec sed-patch 's/^#!\/bin\/bash/#!\/bin\/sh/' {} \; && \
+    find /opt/local/CloudBerry\ Backup/bin/ -type f -exec sed-patch 's/^#!\/bin\/bash/#!\/bin\/sh/' {} \; && \
 
     # Save default configuration.
     mkdir -p /defaults && \

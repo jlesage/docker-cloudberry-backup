@@ -99,6 +99,24 @@ container cannot be changed, but you are free to use any port on the host side.
 | 43210 | Optional | Port used to access the CloudBerry Backup's web interface via HTTP. |
 | 43211 | Optional | Port used to access the CloudBerry Backup's web interface via HTTPs. |
 
+## Docker Compose File
+Here is an example of a `docker-compose.yml` file that can be used with
+[Docker Compose](https://docs.docker.com/compose/overview/):
+```yaml
+version: '3'
+services:
+  cloudberry-backup:
+    build: .
+    ports:
+      - "5800:5800"
+      - "5900:5900"
+      - "43210:43210"
+      - "43211:43211"
+    volumes:
+      - "/docker/appdata/cloudberry-backup:/config:rw"
+      - "$HOME:/storage:ro"
+```
+
 ## Docker Image Update
 
 If the system on which the container runs doesn't provide a way to easily update

@@ -132,7 +132,7 @@ docker stop cloudberry-backup
 ```
   3. Remove the container:
 ```
-docker stop cloudberry-backup
+docker rm cloudberry-backup
 ```
   4. Start the container using the `docker run` command.
 

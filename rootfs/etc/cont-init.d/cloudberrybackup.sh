@@ -74,7 +74,7 @@ fi
 # Make sure default directories exist.
 mkdir -p /config/logs
 
-# Adjust config file permissions.
-chown -R $USER_ID:$GROUP_ID /config
+# Take ownership of the config directory content.
+chown -R $USER_ID:$GROUP_ID /config/*
 
 # vim: set ft=sh :

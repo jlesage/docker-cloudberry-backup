@@ -69,9 +69,6 @@ RUN \
 ARG APP_ICON_URL=https://github.com/jlesage/docker-templates/raw/master/jlesage/images/cloudberry-backup-icon.png
 RUN install_app_icon.sh "$APP_ICON_URL"
 
-# Temporary fix for glibc cache not being updated automatically.
-RUN /usr/glibc-compat/sbin/ldconfig
-
 # Add files.
 COPY rootfs/ /
 

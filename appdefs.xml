@@ -66,6 +66,11 @@ file is deleted.
     <!-- Changelog of the application. -->
     <history>
       <release>
+        <version>1.11.0</version>
+        <date>2018-01-26</date>
+        <change>Upgraded CloudBerry Backup to version 2.3.0.12.</change>
+      </release>
+      <release>
         <version>1.10.0</version>
         <date>2018-01-22</date>
         <change>Now using baseimage v3.3.0, which brings the following changes (since last used version):</change>

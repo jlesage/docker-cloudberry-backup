@@ -8,11 +8,10 @@
 FROM jlesage/baseimage-gui:alpine-3.6-glibc-v3.3.0
 
 # Define software versions.
-ARG CLOUDBERRYBACKUP_VERSION=2.2.1.9_20171228145446
+ARG CLOUDBERRYBACKUP_VERSION=2.3.0.12_20180118144340
 
 # Define software download URLs.
-#ARG CLOUDBERRYBACKUP_URL=https://d1jra2eqc0c15l.cloudfront.net/ubuntu14_CloudBerryLab_CloudBerryBackup_v${CLOUDBERRYBACKUP_VERSION}.deb
-ARG CLOUDBERRYBACKUP_URL=https://github.com/jlesage/docker-cloudberry-backup/raw/master/vendor/ubuntu14_CloudBerryLab_CloudBerryBackup_v${CLOUDBERRYBACKUP_VERSION}.deb
+ARG CLOUDBERRYBACKUP_URL=https://d1jra2eqc0c15l.cloudfront.net/ubuntu14_CloudBerryLab_CloudBerryBackup_v${CLOUDBERRYBACKUP_VERSION}.deb
 
 # Define working directory.
 WORKDIR /tmp

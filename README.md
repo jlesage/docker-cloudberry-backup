@@ -1,5 +1,5 @@
 # Docker container for CloudBerry Backup
-[![Docker Automated build](https://img.shields.io/docker/automated/jlesage/cloudberry-backup.svg)](https://hub.docker.com/r/jlesage/cloudberry-backup/) [![](https://images.microbadger.com/badges/image/jlesage/cloudberry-backup.svg)](http://microbadger.com/#/images/jlesage/cloudberry-backup "Get your own image badge on microbadger.com") [![Build Status](https://travis-ci.org/jlesage/docker-cloudberry-backup.svg?branch=master)](https://travis-ci.org/jlesage/docker-cloudberry-backup) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/JocelynLeSage)
+[![Docker Automated build](https://img.shields.io/docker/automated/jlesage/cloudberry-backup.svg)](https://hub.docker.com/r/jlesage/cloudberry-backup/) [![Docker Image](https://images.microbadger.com/badges/image/jlesage/cloudberry-backup.svg)](http://microbadger.com/#/images/jlesage/cloudberry-backup) [![Build Status](https://travis-ci.org/jlesage/docker-cloudberry-backup.svg?branch=master)](https://travis-ci.org/jlesage/docker-cloudberry-backup) [![GitHub Release](https://img.shields.io/github/release/jlesage/docker-cloudberry-backup.svg)](https://github.com/jlesage/docker-cloudberry-backup/releases/latest) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/JocelynLeSage)
 
 This is a Docker container for CloudBerry Backup.
 
@@ -103,6 +103,7 @@ container cannot be changed, but you are free to use any port on the host side.
 | 43211 | Optional | Port used to access the CloudBerry Backup's web interface via HTTPs. |
 
 ## Docker Compose File
+
 Here is an example of a `docker-compose.yml` file that can be used with
 [Docker Compose](https://docs.docker.com/compose/overview/).
 

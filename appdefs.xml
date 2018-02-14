@@ -367,5 +367,7 @@ file is deleted.
     </ports>
     <!-- Devices -->
     <devices/>
+    <!-- Extra parameters -->
+    <extra_params/>
   </container>
 </defs>

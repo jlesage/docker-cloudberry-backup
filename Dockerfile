@@ -5,7 +5,7 @@
 #
 
 # Pull base image.
-FROM jlesage/baseimage-gui:alpine-3.7-glibc-v3.3.4
+FROM jlesage/baseimage-gui:alpine-3.8-glibc-v3.4.0
 
 # Define software versions.
 ARG CLOUDBERRYBACKUP_VERSION=2.5.0.32

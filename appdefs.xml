@@ -15,7 +15,7 @@ from Jinja2 templates.
       <url>https://www.cloudberrylab.com/backup/linux.aspx</url>
     </project>
     <unraid>
-      <support_url>https://forums.lime-technology.com/topic/57217-support-cloudberry-backup/</support_url>
+      <support_url>https://forums.unraid.net/topic/57217-support-cloudberry-backup/</support_url>
       <category>Backup:</category>
     </unraid>
     <container>

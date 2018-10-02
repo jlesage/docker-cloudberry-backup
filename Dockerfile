@@ -60,10 +60,9 @@ RUN \
 
 # Install dependencies.
 RUN \
-    echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories && \
     add-pkg \
         ca-certificates \
-        mkpasswd@edge
+        mkpasswd
 
 # Generate and install favicons.
 ARG APP_ICON_URL=https://github.com/jlesage/docker-templates/raw/master/jlesage/images/cloudberry-backup-icon.png

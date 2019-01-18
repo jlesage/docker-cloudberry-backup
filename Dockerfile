@@ -29,6 +29,7 @@ RUN \
     # Extract the CloudBerry Backup package.
     dpkg-deb --raw-extract cloudberry-backup.deb cbbout && \
     mv cbbout/opt/* /opt/ && \
+    rm -r /opt/local/"CloudBerry Backup"/init.d && \
 
     # Install CloudBerry Backup.
     sed-patch '/^#!\/bin\/bash/ a\\nfunction service {\n    :\n}\nfunction update-rc.d {\n    :\n}' cbbout/DEBIAN/postinst && \

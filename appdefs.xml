@@ -66,6 +66,12 @@ file is deleted.
     <!-- Changelog of the application. -->
     <history>
       <release>
+        <version>1.16.0</version>
+        <date>2019-02-27</date>
+        <change>Upgraded CloudBerry Backup to version 2.8.0.35.</change>
+        <change>Make sure to start the UI only when the management service is ready.</change>
+      </release>
+      <release>
         <version>1.15.0</version>
         <date>2018-10-02</date>
         <change>Upgraded CloudBerry Backup to version 2.6.0.31.</change>

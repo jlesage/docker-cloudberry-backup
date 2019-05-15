@@ -8,8 +8,8 @@
 FROM jlesage/baseimage-gui:alpine-3.9-glibc-v3.5.2
 
 # Define software versions.
-ARG CLOUDBERRYBACKUP_VERSION=2.8.3.10
-ARG CLOUDBERRYBACKUP_TIMESTAMP=20190322224356
+ARG CLOUDBERRYBACKUP_VERSION=2.9.0.114
+ARG CLOUDBERRYBACKUP_TIMESTAMP=20190515121145
 
 # Define software download URLs.
 ARG CLOUDBERRYBACKUP_URL=https://d1jra2eqc0c15l.cloudfront.net/ubuntu14_CloudBerryLab_CloudBerryBackup_v${CLOUDBERRYBACKUP_VERSION}_${CLOUDBERRYBACKUP_TIMESTAMP}.deb
@@ -29,7 +29,6 @@ RUN \
     # Extract the CloudBerry Backup package.
     dpkg-deb --raw-extract cloudberry-backup.deb cbbout && \
     mv cbbout/opt/* /opt/ && \
-    rm -r /opt/local/"CloudBerry Backup"/init.d && \
 
     # Install CloudBerry Backup.
     sed-patch '/^#!\/bin\/bash/ a\\nfunction service {\n    :\n}\nfunction update-rc.d {\n    :\n}' cbbout/DEBIAN/postinst && \

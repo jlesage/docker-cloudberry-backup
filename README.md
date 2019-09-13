@@ -167,6 +167,7 @@ ports are part of the example.
 version: '3'
 services:
   cloudberry-backup:
+    image: jlesage/cloudberry-backup
     build: .
     ports:
       - "5800:5800"

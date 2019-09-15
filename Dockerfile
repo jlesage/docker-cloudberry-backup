@@ -4,6 +4,8 @@
 # https://github.com/jlesage/docker-cloudberry-backup
 #
 
+ARG DOCKER_IMAGE_VERSION=unknown
+
 # Pull base image.
 FROM jlesage/baseimage-gui:alpine-3.9-glibc-v3.5.2
 
@@ -90,6 +92,6 @@ EXPOSE 43210 43211
 LABEL \
       org.label-schema.name="cloudberry-backup" \
       org.label-schema.description="Docker container for CloudBerry Backup" \
-      org.label-schema.version="0.1.0" \
+      org.label-schema.version="$DOCKER_IMAGE_VERSION" \
       org.label-schema.vcs-url="https://github.com/jlesage/docker-cloudberry-backup" \
       org.label-schema.schema-version="1.0"

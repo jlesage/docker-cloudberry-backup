@@ -1,5 +1,5 @@
 # Docker container for CloudBerry Backup
-[![Docker Image Size](https://img.shields.io/microbadger/image-size/jlesage/cloudberry-backup)](http://microbadger.com/#/images/jlesage/cloudberry-backup) [![Build Status](https://travis-ci.org/jlesage/docker-cloudberry-backup.svg?branch=master)](https://travis-ci.org/jlesage/docker-cloudberry-backup) [![GitHub Release](https://img.shields.io/github/release/jlesage/docker-cloudberry-backup.svg)](https://github.com/jlesage/docker-cloudberry-backup/releases/latest) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/JocelynLeSage/0usd)
+[![Docker Image Size](https://img.shields.io/microbadger/image-size/jlesage/cloudberry-backup)](http://microbadger.com/#/images/jlesage/cloudberry-backup) [![Build Status](https://drone.le-sage.com/api/badges/jlesage/docker-cloudberry-backup/status.svg)](https://drone.le-sage.com/jlesage/docker-cloudberry-backup) [![GitHub Release](https://img.shields.io/github/release/jlesage/docker-cloudberry-backup.svg)](https://github.com/jlesage/docker-cloudberry-backup/releases/latest) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/JocelynLeSage/0usd)
 
 This is a Docker container for [CloudBerry Backup](https://www.cloudberrylab.com/backup/linux.aspx).
 

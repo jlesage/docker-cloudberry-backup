@@ -4,10 +4,11 @@
 # https://github.com/jlesage/docker-cloudberry-backup
 #
 
-ARG DOCKER_IMAGE_VERSION=unknown
-
 # Pull base image.
 FROM jlesage/baseimage-gui:alpine-3.9-glibc-v3.5.2
+
+# Docker image version is provided via build arg.
+ARG DOCKER_IMAGE_VERSION=unknown
 
 # Define software versions.
 ARG CLOUDBERRYBACKUP_VERSION=2.9.4.12

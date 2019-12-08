@@ -66,6 +66,11 @@ file is deleted.
     <!-- Changelog of the application. -->
     <history>
       <release>
+        <version>1.21.2</version>
+        <date>2019-12-08</date>
+        <change>Upgraded CloudBerry Backup to version 2.10.1.36.</change>
+      </release>
+      <release>
         <version>1.21.1</version>
         <date>2019-10-27</date>
         <change>Upgraded CloudBerry Backup to version 2.10.1.26.</change>

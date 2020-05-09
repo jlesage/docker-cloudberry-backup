@@ -66,6 +66,16 @@ file is deleted.
     <!-- Changelog of the application. -->
     <history>
       <release>
+        <version>1.22.0</version>
+        <date>2020-05-09</date>
+        <change>Upgraded CloudBerry Backup to version 3.0.0.100.</change>
+        <change>The backup engine now runs under the configured user.</change>
+        <change level="2">NOTE: Make sure `USER_ID` and `GROUP_ID` environment variables are properly set to allow CloudBerry Backup to access your files.</change>
+        <change>Now using baseimage v3.5.3, which brings the following changes:</change>
+        <change level="2">Updated installed packages to get latest security fixes.</change>
+        <change level="2">Make sure the tzdata is installed.</change>
+      </release>
+      <release>
         <version>1.21.2</version>
         <date>2019-12-08</date>
         <change>Upgraded CloudBerry Backup to version 2.10.1.36.</change>

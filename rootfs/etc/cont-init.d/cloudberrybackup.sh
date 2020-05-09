@@ -32,6 +32,7 @@ then
     if [ -f /opt/local/"CloudBerry Backup"/etc/config/cloudBackup.conf ]; then
         CUR_VERSION="$(cat /opt/local/"CloudBerry Backup"/etc/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
         log "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
+        echo "YES" > /tmp/.upgrade_performed
     else
         log "CloudBerry Backup config not found, copying default one..."
     fi
@@ -48,10 +49,12 @@ else
     CUR_VERSION="$(cat /opt/local/"Online Backup"/"$OWNER_ID"/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
     if [ "$CUR_VERSION" != "$NEW_VERSION" ]; then
         log "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
+        echo "YES" > /tmp/.upgrade_performed
         COPY_DEFAULT_ETC=1
     fi
 fi
 
+[ -f /tmp/.upgrade_performed ] || echo "NO" > /tmp/.upgrade_performed
 
 # Copy etc files to /opt/local/CloudBerry Backup/etc (symlink to /config/etc).
 # CBB will then move them under /opt/local/Online Backup/.

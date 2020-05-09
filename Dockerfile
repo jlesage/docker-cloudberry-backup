@@ -68,6 +68,11 @@ RUN \
         ca-certificates \
         mkpasswd
 
+# Enable log monitoring.
+RUN \
+    add-pkg yad && \
+    sed-patch 's|STATUS_FILES=|STATUS_FILES=/tmp/.upgrade_performed|' /etc/logmonitor/logmonitor.conf
+
 # Generate and install favicons.
 ARG APP_ICON_URL=https://github.com/jlesage/docker-templates/raw/master/jlesage/images/cloudberry-backup-icon.png
 RUN install_app_icon.sh "$APP_ICON_URL"

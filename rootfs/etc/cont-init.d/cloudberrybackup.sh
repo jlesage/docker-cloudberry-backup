@@ -7,34 +7,56 @@ log() {
     echo "[cont-init.d] $(basename $0): $*"
 }
 
+OWNER_ID="00000000-0000-0000-0000-000000000000"
+
+# Make sure default directories exist.
+mkdir -p /config/etc
+mkdir -p /config/logs
+mkdir -p /config/"Online Backup"
+
+
 # Generate machine id
 if [ ! -f /etc/machine-id ]; then
     log "generating machine-id..."
     cat /proc/sys/kernel/random/uuid | tr -d '-' > /etc/machine-id
 fi
 
-# Copy default config if needed.
-if [ ! -d /config/etc ]
-then
-    log "CloudBerry Backup config not found, copying default one..."
-    cp -pr /defaults/cbb_etc /config/etc
-    /opt/local/"CloudBerry Backup"/bin/cbbUpdater
-fi
-
-# Generate HID if needed
-if [ ! -f /config/HID ]
-then
-    log "Generating HID..."
-    cat /proc/sys/kernel/random/uuid > /config/HID
-fi
-
-# Check if a configuration upgrade is needed.
-CUR_VERSION="$(cat /opt/local/"CloudBerry Backup"/etc/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
+# Check if default etc files need to be copied.  This should be done in two
+# cases:
+#   - On initial startup.
+#   - On upgrade.
+COPY_DEFAULT_ETC=0
 NEW_VERSION="$(cat /defaults/cbb_etc/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
-if [ "$CUR_VERSION" != "$NEW_VERSION" ]; then
-    log "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
-    cp /defaults/cbb_etc/config/cloudBackup.conf /config/etc/config/cloudBackup.conf
-    cp /defaults/cbb_etc/config/wt_config.xml /config/etc/config/wt_config.xml
+if [ ! -d /opt/local/"Online Backup"/"$OWNER_ID" ]
+then
+    if [ -f /opt/local/"CloudBerry Backup"/etc/config/cloudBackup.conf ]; then
+        CUR_VERSION="$(cat /opt/local/"CloudBerry Backup"/etc/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
+        log "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
+    else
+        log "CloudBerry Backup config not found, copying default one..."
+    fi
+    COPY_DEFAULT_ETC=1
+
+    # Location of HID changed.  Make sure to move it.
+    if [ -f /config/HID ]; then
+        # During upgrade, CBB expects the HID to be at the old location and
+        # it must be able to move the file to the new location.
+        mv /config/HID /opt/local/"CloudBerry Backup"/share/
+        chmod a+w /opt/local/"CloudBerry Backup"/share
+    fi
+else
+    CUR_VERSION="$(cat /opt/local/"Online Backup"/"$OWNER_ID"/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
+    if [ "$CUR_VERSION" != "$NEW_VERSION" ]; then
+        log "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
+        COPY_DEFAULT_ETC=1
+    fi
+fi
+
+
+# Copy etc files to /opt/local/CloudBerry Backup/etc (symlink to /config/etc).
+# CBB will then move them under /opt/local/Online Backup/.
+if [ "$COPY_DEFAULT_ETC" -eq 1 ]; then
+    cp -pr /defaults/cbb_etc/* /opt/local/"CloudBerry Backup"/etc/
     /opt/local/"CloudBerry Backup"/bin/cbbUpdater
 fi
 
@@ -72,9 +94,6 @@ else
         log "CloudBerry Backup web interface not usable: No password defined."
     fi
 fi
-
-# Make sure default directories exist.
-mkdir -p /config/logs
 
 # Take ownership of the config directory content.
 find /config -mindepth 1 -exec chown $USER_ID:$GROUP_ID {} \;

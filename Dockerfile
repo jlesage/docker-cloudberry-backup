@@ -11,8 +11,8 @@ FROM jlesage/baseimage-gui:alpine-3.9-glibc-v3.5.3
 ARG DOCKER_IMAGE_VERSION=unknown
 
 # Define software versions.
-ARG CLOUDBERRYBACKUP_VERSION=2.10.1.36
-ARG CLOUDBERRYBACKUP_TIMESTAMP=20191101125634
+ARG CLOUDBERRYBACKUP_VERSION=3.0.0.100
+ARG CLOUDBERRYBACKUP_TIMESTAMP=20200418030411
 
 # Define software download URLs.
 ARG CLOUDBERRYBACKUP_URL=https://d1jra2eqc0c15l.cloudfront.net/ubuntu14_CloudBerryLab_CloudBerryBackup_v${CLOUDBERRYBACKUP_VERSION}_${CLOUDBERRYBACKUP_TIMESTAMP}.deb
@@ -35,7 +35,9 @@ RUN \
     rm -r /opt/local/"CloudBerry Backup"/init && \
 
     # Install CloudBerry Backup.
-    sed-patch '/^#!\/bin\/bash/ a\\nfunction service {\n    :\n}\nfunction update-rc.d {\n    :\n}' cbbout/DEBIAN/postinst && \
+    sed-patch '/^#!\/bin\/bash/ a\\nset -x\nfunction service {\n    :\n}\nfunction update-rc.d {\n    :\n}' cbbout/DEBIAN/postinst && \
+    sed-patch 's|^systemctl |#systemctl |' cbbout/DEBIAN/postinst && \
+    sed-patch 's|/opt/local/"CloudBerry Backup"/bin/cbbUpdater -r >/dev/null 2>/dev/null|#/opt/local/"CloudBerry Backup"/bin/cbbUpdater -r|' cbbout/DEBIAN/postinst && \
     ./cbbout/DEBIAN/postinst && \
 
     # Modify installed scripts to use sh instead of bash.
@@ -47,9 +49,7 @@ RUN \
 
     # Setup symbolic links for stuff that need to be outside the container.
     ln -s /config/etc /opt/local/"CloudBerry Backup"/etc && \
-    rm -r /opt/local/"CloudBerry Backup"/logs && \
-    ln -s /config/logs /opt/local/"CloudBerry Backup"/logs && \
-    ln -s /config/HID /opt/local/"CloudBerry Backup"/share/HID && \
+    ln -s /config/"Online Backup" /opt/local/"Online Backup" && \
 
     # Fix PAM authentication for web interface.
     ln -s base-auth /etc/pam.d/common-auth && \

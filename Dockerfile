@@ -55,7 +55,11 @@ RUN \
     ln -s base-auth /etc/pam.d/common-auth && \
 
     # Maximize only the main/initial window.
-    sed-patch 's/<application type="normal">/<application type="normal" title="CloudBerry Backup">/' \
+    sed-patch 's/<application type="normal">/<application type="normal" class="cbbGUI" title="CloudBerry Backup">/' \
+        /etc/xdg/openbox/rc.xml && \
+
+    # Make sure the main window is always in the background.
+    sed-patch '/<application type="normal" class="cbbGUI" title="CloudBerry Backup">/a \    <layer>below</layer>' \
         /etc/xdg/openbox/rc.xml && \
 
     # Cleanup.

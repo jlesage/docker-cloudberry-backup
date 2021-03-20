@@ -11,7 +11,6 @@ OWNER_ID="00000000-0000-0000-0000-000000000000"
 
 # Make sure default directories exist.
 mkdir -p /config/etc
-mkdir -p /config/logs
 mkdir -p /config/"Online Backup"
 
 

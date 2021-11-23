@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=CloudBerry Backup
+Exec="/opt/local/CloudBerry Backup/bin/cbbgui"
+Icon=/opt/local/CloudBerry Backup/share/images/MainIcon.ico
+Categories=Network;Database;Office;

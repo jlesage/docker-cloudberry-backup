@@ -4,9 +4,6 @@
 # https://github.com/jlesage/docker-cloudberry-backup
 #
 
-# Pull base image.
-FROM jlesage/baseimage-gui:alpine-3.9-glibc-v3.5.6
-
 # Docker image version is provided via build arg.
 ARG DOCKER_IMAGE_VERSION=unknown
 
@@ -17,69 +14,62 @@ ARG CLOUDBERRYBACKUP_TIMESTAMP=20211116121730
 # Define software download URLs.
 ARG CLOUDBERRYBACKUP_URL=https://d1jra2eqc0c15l.cloudfront.net/ubuntu14_CloudBerryLab_CloudBerryBackup_v${CLOUDBERRYBACKUP_VERSION}_${CLOUDBERRYBACKUP_TIMESTAMP}.deb
 
+# Build CloudBerry Backup.
+FROM ubuntu:20.04 AS cbb
+ARG CLOUDBERRYBACKUP_URL
+COPY src/cloudberry-backup/build.sh /build-cloudberry-backup.sh
+RUN /build-cloudberry-backup.sh "$CLOUDBERRYBACKUP_URL"
+
+# Build YAD.
+FROM alpine:3.14 as yad
+COPY src/yad/build.sh /build-yad.sh
+RUN /build-yad.sh
+
+# Pull base image.
+FROM jlesage/baseimage-gui:alpine-3.12-v3.5.6
+ARG DOCKER_IMAGE_VERSION
+
 # Define working directory.
 WORKDIR /tmp
 
 # Install CloudBerry Backup.
+COPY --from=cbb ["/opt/local/CloudBerry Backup", "/opt/local/CloudBerry Backup"]
+COPY --from=cbb ["/opt/local/Online Backup", "/defaults/Online Backup"]
+COPY --from=cbb /usr/lib/x86_64-linux-gnu/gconv /usr/lib/x86_64-linux-gnu/gconv
 RUN \
-    # Install packages needed by the build.
-    add-pkg --virtual build-dependencies dpkg tar curl bash && \
-
-    # Download the CloudBerry Backup package.
-    echo "Downloading CloudBerry Backup package..." && \
-    curl -# -L -o cloudberry-backup.deb ${CLOUDBERRYBACKUP_URL} && \
-
-    # Extract the CloudBerry Backup package.
-    dpkg-deb --raw-extract cloudberry-backup.deb cbbout && \
-    mv cbbout/opt/* /opt/ && \
-    rm -r /opt/local/"CloudBerry Backup"/init && \
-
-    # Install CloudBerry Backup.
-    sed-patch '/^#!\/bin\/bash/ a\\nset -x\nfunction service {\n    :\n}\nfunction update-rc.d {\n    :\n}' cbbout/DEBIAN/postinst && \
-    sed-patch 's|^systemctl |#systemctl |' cbbout/DEBIAN/postinst && \
-    sed-patch 's|/opt/local/"CloudBerry Backup"/bin/cbbUpdater -r >/dev/null 2>/dev/null|#/opt/local/"CloudBerry Backup"/bin/cbbUpdater -r|' cbbout/DEBIAN/postinst && \
-    ./cbbout/DEBIAN/postinst && \
-
-    # Modify installed scripts to use sh instead of bash.
-    find /opt/local/CloudBerry\ Backup/bin/ -type f -exec sed-patch 's/^#!\/bin\/bash/#!\/bin\/sh/' {} \; && \
-
-    # Save default configuration.
-    mkdir -p /defaults && \
-    mv /opt/local/"CloudBerry Backup"/etc /defaults/cbb_etc && \
-
     # Setup symbolic links for stuff that need to be outside the container.
-    ln -s /config/etc /opt/local/"CloudBerry Backup"/etc && \
     ln -s /config/"Online Backup" /opt/local/"Online Backup" && \
-
     # Fix PAM authentication for web interface.
-    ln -s base-auth /etc/pam.d/common-auth && \
+    ln -s base-auth /etc/pam.d/common-auth
 
+# Install YAD.
+COPY --from=yad /tmp/yad-install/usr/bin/yad /usr/bin/
+
+# Adjust the openbox config.
+RUN \
     # Maximize only the main/initial window.
     sed-patch 's/<application type="normal">/<application type="normal" class="cbbGUI" title="CloudBerry Backup">/' \
         /etc/xdg/openbox/rc.xml && \
-
     # Make sure the main window is always in the background.
     sed-patch '/<application type="normal" class="cbbGUI" title="CloudBerry Backup">/a \    <layer>below</layer>' \
-        /etc/xdg/openbox/rc.xml && \
-
-    # Cleanup.
-    del-pkg build-dependencies && \
-    rm -rf /tmp/*
+        /etc/xdg/openbox/rc.xml
 
 # Install dependencies.
 RUN \
     add-pkg \
-        ca-certificates \
         mkpasswd
 
 # Enable log monitoring.
 RUN \
-    add-pkg yad && \
-    sed-patch 's|STATUS_FILES=|STATUS_FILES=/tmp/.upgrade_performed|' /etc/logmonitor/logmonitor.conf
+    sed-patch 's|STATUS_FILES=|STATUS_FILES=/tmp/.upgrade_performed|' /etc/logmonitor/logmonitor.conf && \
+    # The following change should be done in the baseimage.
+    sed-patch 's|> /dev/null|> /dev/null 2>\&1|' /etc/logmonitor/targets.d/yad/send && \
+    sed-patch 's/yad --version |/yad --version 2>\/dev\/null |/' /etc/logmonitor/targets.d/yad/send
 
 # Generate and install favicons.
-ARG APP_ICON_URL=https://github.com/jlesage/docker-templates/raw/master/jlesage/images/cloudberry-backup-icon.png
-RUN install_app_icon.sh "$APP_ICON_URL"
+RUN \
+    APP_ICON_URL=https://github.com/jlesage/docker-templates/raw/master/jlesage/images/cloudberry-backup-icon.png && \
+    install_app_icon.sh "$APP_ICON_URL"
 
 # Add files.
 COPY rootfs/ /

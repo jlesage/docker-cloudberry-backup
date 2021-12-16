@@ -8,8 +8,8 @@
 ARG DOCKER_IMAGE_VERSION=unknown
 
 # Define software versions.
-ARG CLOUDBERRYBACKUP_VERSION=3.2.3.156
-ARG CLOUDBERRYBACKUP_TIMESTAMP=20211116121730
+ARG CLOUDBERRYBACKUP_VERSION=3.3.0.11
+ARG CLOUDBERRYBACKUP_TIMESTAMP=20211122160843
 
 # Define software download URLs.
 ARG CLOUDBERRYBACKUP_URL=https://d1jra2eqc0c15l.cloudfront.net/ubuntu14_CloudBerryLab_CloudBerryBackup_v${CLOUDBERRYBACKUP_VERSION}_${CLOUDBERRYBACKUP_TIMESTAMP}.deb
@@ -21,7 +21,7 @@ COPY src/cloudberry-backup/build.sh /build-cloudberry-backup.sh
 RUN /build-cloudberry-backup.sh "$CLOUDBERRYBACKUP_URL"
 
 # Build YAD.
-FROM alpine:3.14 as yad
+FROM alpine:3.14 AS yad
 COPY src/yad/build.sh /build-yad.sh
 RUN /build-yad.sh
 

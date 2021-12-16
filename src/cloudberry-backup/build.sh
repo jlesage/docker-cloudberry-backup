@@ -5,6 +5,10 @@ set -o pipefail
 
 export DEBIAN_FRONTEND=noninteractive
 
+function log {
+    echo ">>> $*"
+}
+
 if [ -z "${1:-}" ]; then
     echo "ERROR: CloudBerry Backup URL not provided."
     exit 1
@@ -12,7 +16,10 @@ fi
 
 CLOUDBERRYBACKUP_URL="$1"
 
+log "Updating APT cache..."
 apt update
+
+log "Installing build prerequisites..."
 apt upgrade -y
 apt install -y --no-install-recommends \
     wget \
@@ -24,9 +31,11 @@ apt install -y --no-install-recommends \
     libdbus-1-3
 
 # Download CloudBerry Backup.
+log "Downloading CloudBerry Backup..."
 wget "$CLOUDBERRYBACKUP_URL" -O /tmp/cbb.deb
 
 # Install CloudBerry Backup.
+log "Installing CloudBerry Backup..."
 dpkg --force-all --install /tmp/cbb.deb
 
 service cloudberry-backup stop
@@ -55,14 +64,14 @@ EXTRA_LIBS="
     /usr/lib/x86_64-linux-gnu/libXcursor.so.1
 "
 
-echo "Copying extra libraries..."
+log "Copying extra libraries..."
 for LIB in $EXTRA_LIBS
 do
     cp -av "$LIB"* /opt/local/"CloudBerry Backup"/lib/
 done
 
 # Extract dependencies of all binaries and libraries.
-echo "Extracting shared library dependencies..."
+log "Extracting shared library dependencies..."
 find /opt/local/"CloudBerry Backup"/raw_bin /opt/local/"CloudBerry Backup"/lib -type f -executable -or -name 'lib*.so*' | while read BIN
 do
     RAW_DEPS="$(LD_LIBRARY_PATH="/opt/local/CloudBerry Backup/lib" ldd "$BIN")"
@@ -94,12 +103,14 @@ do
     done
 done
 
-echo "Patching ELF of binaries..."
+log "Patching ELF of binaries..."
 find "/opt/local/CloudBerry Backup/raw_bin" -type f -executable -exec echo "  -> Setting interpreter of {}..." ';' -exec patchelf --set-interpreter "/opt/local/CloudBerry Backup/lib/ld-linux-x86-64.so.2" {} ';'
 find "/opt/local/CloudBerry Backup/raw_bin" -type f -executable -exec echo "  -> Setting rpath of {}..." ';' -exec patchelf --set-rpath '$ORIGIN/../lib' {} ';'
 
-echo "Patching ELF of libraries..."
+log "Patching ELF of libraries..."
 find "/opt/local/CloudBerry Backup/lib" -type f -name "lib*" -exec echo "  -> Setting rpath of {}..." ';' -exec patchelf --set-rpath '$ORIGIN' {} ';'
 
-echo "Copying interpreter..."
+log "Copying interpreter..."
 cp -av /lib/x86_64-linux-gnu/ld-* "/opt/local/CloudBerry Backup/lib/"
+
+log "CloudBerry backup build successfully."

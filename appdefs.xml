@@ -66,6 +66,13 @@ file is deleted.
     <!-- Changelog of the application. -->
     <history>
       <release>
+        <version>1.26.1</version>
+        <date>2022-02-03</date>
+        <change>Fixed CloudBerry Backup Web Interface login.</change>
+        <change>Updated baseimage to version 3.5.8, which brings to following changes:</change>
+        <change level="2">Updated installed packages to get latest security fixes.</change>
+      </release>
+      <release>
         <version>1.26.0</version>
         <date>2021-12-16</date>
         <change>Updated CloudBerry Backup to version 3.3.0.11.</change>

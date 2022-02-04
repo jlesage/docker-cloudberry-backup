@@ -3,6 +3,13 @@
 set -e # Exit immediately if a command exits with a non-zero status.
 set -u # Treat unset variables as an error.
 
+SHADOW_GRP_ID="$(getent group shadow | cut -d':' -f3)"
+if [ -n "${SUP_GROUP_IDS:-}" ]; then
+    SUP_GROUP_IDS="$SUP_GROUP_IDS,$SHADOW_GRP_ID"
+else
+    SUP_GROUP_IDS="$SHADOW_GRP_ID"
+fi
+
 echo "[$(basename "$(pwd)")] starting..."
 exec 2>&1 $APP_NICE_CMD s6-applyuidgid -u $USER_ID -g $GROUP_ID -G ${SUP_GROUP_IDS:-$GROUP_ID} /opt/local/"CloudBerry Backup"/bin/cbbWebAccess >> /config/"Online Backup"/00000000-0000-0000-0000-000000000000/logs/log_WebAccess_output.log
 

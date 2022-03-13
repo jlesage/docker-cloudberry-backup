@@ -22,13 +22,17 @@ apt update
 log "Installing build prerequisites..."
 apt upgrade -y
 apt install -y --no-install-recommends \
+    locales \
     wget \
     ca-certificates \
     patchelf \
     libgl1 \
     libxrender1 \
     libxcursor1 \
-    libdbus-1-3
+    libdbus-1-3 \
+
+# Generate locale.
+locale-gen en_US.UTF-8
 
 # Download CloudBerry Backup.
 log "Downloading CloudBerry Backup..."

@@ -36,6 +36,7 @@ WORKDIR /tmp
 COPY --from=cbb ["/opt/local/CloudBerry Backup", "/opt/local/CloudBerry Backup"]
 COPY --from=cbb ["/opt/local/Online Backup", "/defaults/Online Backup"]
 COPY --from=cbb /usr/lib/x86_64-linux-gnu/gconv /usr/lib/x86_64-linux-gnu/gconv
+COPY --from=cbb /usr/lib/locale/locale-archive /usr/lib/locale/locale-archive
 RUN \
     # Setup symbolic links for stuff that need to be outside the container.
     ln -s /config/"Online Backup" /opt/local/"Online Backup" && \

@@ -66,6 +66,11 @@ file is deleted.
     <!-- Changelog of the application. -->
     <history>
       <release>
+        <version>1.28.0</version>
+        <date>2022-09-13</date>
+        <change>Updated CloudBerry Backup to version 4.0.0.260.</change>
+      </release>
+      <release>
         <version>1.27.1</version>
         <date>2022-03-12</date>
         <change>Fixed issue where files whith special characters were not processed.</change>

@@ -5,11 +5,11 @@
 #
 
 # Docker image version is provided via build arg.
-ARG DOCKER_IMAGE_VERSION=unknown
+ARG DOCKER_IMAGE_VERSION=
 
 # Define software versions.
-ARG CLOUDBERRYBACKUP_VERSION=4.0.0.260
-ARG CLOUDBERRYBACKUP_TIMESTAMP=20220808182426
+ARG CLOUDBERRYBACKUP_VERSION=4.0.1.310
+ARG CLOUDBERRYBACKUP_TIMESTAMP=20221127033201
 
 # Define software download URLs.
 ARG CLOUDBERRYBACKUP_URL=https://download.msp360.com/ubuntu14_CloudBerryLab_CloudBerryBackup_v${CLOUDBERRYBACKUP_VERSION}_${CLOUDBERRYBACKUP_TIMESTAMP}.deb
@@ -20,13 +20,8 @@ ARG CLOUDBERRYBACKUP_URL
 COPY src/cloudberry-backup/build.sh /build-cloudberry-backup.sh
 RUN /build-cloudberry-backup.sh "$CLOUDBERRYBACKUP_URL"
 
-# Build YAD.
-FROM alpine:3.14 AS yad
-COPY src/yad/build.sh /build-yad.sh
-RUN /build-yad.sh
-
 # Pull base image.
-FROM jlesage/baseimage-gui:alpine-3.12-v3.5.8
+FROM jlesage/baseimage-gui:alpine-3.16-v4.2.1
 ARG DOCKER_IMAGE_VERSION
 
 # Define working directory.
@@ -43,29 +38,13 @@ RUN \
     # Fix PAM authentication for web interface.
     ln -s base-auth /etc/pam.d/common-auth
 
-# Install YAD.
-COPY --from=yad /tmp/yad-install/usr/bin/yad /usr/bin/
-
-# Adjust the openbox config.
-RUN \
-    # Maximize only the main/initial window.
-    sed-patch 's/<application type="normal">/<application type="normal" class="cbbGUI" title="CloudBerry Backup">/' \
-        /etc/xdg/openbox/rc.xml && \
-    # Make sure the main window is always in the background.
-    sed-patch '/<application type="normal" class="cbbGUI" title="CloudBerry Backup">/a \    <layer>below</layer>' \
-        /etc/xdg/openbox/rc.xml
-
 # Install dependencies.
 RUN \
     add-pkg \
         mkpasswd
 
 # Enable log monitoring.
-RUN \
-    sed-patch 's|STATUS_FILES=|STATUS_FILES=/tmp/.upgrade_performed|' /etc/logmonitor/logmonitor.conf && \
-    # The following change should be done in the baseimage.
-    sed-patch 's|> /dev/null|> /dev/null 2>\&1|' /etc/logmonitor/targets.d/yad/send && \
-    sed-patch 's/yad --version |/yad --version 2>\/dev\/null |/' /etc/logmonitor/targets.d/yad/send
+RUN sed-patch 's|STATUS_FILES=|STATUS_FILES=/tmp/.upgrade_performed|' /etc/logmonitor/logmonitor.conf
 
 # Generate and install favicons.
 RUN \
@@ -75,13 +54,19 @@ RUN \
 # Add files.
 COPY rootfs/ /
 
-# Set environment variables.
-ENV APP_NAME="CloudBerry Backup" \
+# Set internal environment variables.
+RUN \
+    set-cont-env APP_NAME "CloudBerry Backup" && \
+    set-cont-env APP_VERSION "$TSMUXER_VERSION" && \
+    set-cont-env DOCKER_IMAGE_VERSION "$DOCKER_IMAGE_VERSION" && \
+    true
+
+# Set public environment variables.
+ENV \
     CBB_WEB_INTERFACE_USER="" \
     CBB_WEB_INTERFACE_PASSWORD=""
 
 # Define mountable directories.
-VOLUME ["/config"]
 VOLUME ["/storage"]
 
 # Expose ports.
@@ -93,6 +78,6 @@ EXPOSE 43210 43211
 LABEL \
       org.label-schema.name="cloudberry-backup" \
       org.label-schema.description="Docker container for CloudBerry Backup" \
-      org.label-schema.version="$DOCKER_IMAGE_VERSION" \
+      org.label-schema.version="${DOCKER_IMAGE_VERSION:-unknown}" \
       org.label-schema.vcs-url="https://github.com/jlesage/docker-cloudberry-backup" \
       org.label-schema.schema-version="1.0"

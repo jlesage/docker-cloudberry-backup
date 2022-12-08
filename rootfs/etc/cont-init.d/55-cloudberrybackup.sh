@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/bin/sh
 
 set -e # Exit immediately if a command exits with a non-zero status.
 set -u # Treat unset variables as an error.
@@ -14,9 +14,9 @@ mkdir -p /config/etc
 mkdir -p /config/"Online Backup"
 
 # Generate machine id
-if [ ! -f /etc/machine-id ]; then
+if [ ! -f /config/machine-id ]; then
     log "generating machine-id..."
-    cat /proc/sys/kernel/random/uuid | tr -d '-' > /etc/machine-id
+    cat /proc/sys/kernel/random/uuid | tr -d '-' > /config/machine-id
 fi
 
 # Handle initial start and upgrade scenarios.
@@ -75,9 +75,9 @@ fi
 
 # Handle password for CloudBerry web interface.
 if [ "${CBB_WEB_INTERFACE_USER:-UNSET}" = "UNSET" ]; then
-    log "CloudBerry Backup web interface not usable: No user name defined."
+    log "CloudBerry Backup web interface disabled: No user name defined."
 elif id "$CBB_WEB_INTERFACE_USER" >/dev/null 2>&1; then
-    log "CloudBerry Backup web interface not usable: User name '$CBB_WEB_INTERFACE_USER' is reserved."
+    log "CloudBerry Backup web interface disabled: User name '$CBB_WEB_INTERFACE_USER' is reserved."
 else
     if [ -f /config/.cbb_web_interface_pass_hash ]; then
         PASS="$(cat /config/.cbb_web_interface_pass_hash)"
@@ -96,12 +96,10 @@ else
                 --home-dir /dev/null \
                 --password "$PASS" \
                 $CBB_WEB_INTERFACE_USER
+        touch /tmp/.cbb_web_interface_enabled
     else
-        log "CloudBerry Backup web interface not usable: No password defined."
+        log "CloudBerry Backup web interface disabled: No password defined."
     fi
 fi
-
-# Take ownership of the config directory content.
-find /config -mindepth 1 -exec chown $USER_ID:$GROUP_ID {} \;
 
 # vim: set ft=sh :

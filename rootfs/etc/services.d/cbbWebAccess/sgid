@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e # Exit immediately if a command exits with a non-zero status.
+set -u # Treat unset variables as an error.
+
+SHADOW_GRP_ID="$(getent group shadow | cut -d':' -f3)"
+if [ -n "${SUP_GROUP_IDS:-}" ]; then
+    SUP_GROUP_IDS="$SUP_GROUP_IDS,$SHADOW_GRP_ID"
+else
+    SUP_GROUP_IDS="$SHADOW_GRP_ID"
+fi
+
+echo "$SUP_GROUP_IDS" | tr ',' '\n'
+
+# vim:ts=4:sw=4:et:sts=4

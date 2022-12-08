@@ -3,9 +3,10 @@
 set -e # Exit immediately if a command exits with a non-zero status.
 set -u # Treat unset variables as an error.
 
-#export QT_DEBUG_PLUGINS=1
+if [ -f /tmp/.cbb_web_interface_enabled ]; then
+    echo "false"
+else
+    echo "true"
+fi
 
-cd /config
-exec /opt/local/"CloudBerry Backup"/bin/cbbGUI
-
-# vim: set ft=sh :
+# vim:ft=sh:ts=4:sw=4:et:sts=4

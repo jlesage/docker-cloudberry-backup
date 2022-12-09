@@ -58,6 +58,10 @@ app:
           saved to `/config/.cbb_web_interface_pass_hash`.  Then, the clear-text password
           file is deleted.
   changelog:
+    - version: 22.12.2
+      date: 2022-12-09
+      changes:
+        - 'Fixed CloudBerry Backup version number stored into the image.'
     - version: 22.12.1
       date: 2022-12-09
       changes:

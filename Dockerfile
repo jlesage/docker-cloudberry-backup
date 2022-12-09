@@ -22,6 +22,8 @@ RUN /build-cloudberry-backup.sh "$CLOUDBERRYBACKUP_URL"
 
 # Pull base image.
 FROM jlesage/baseimage-gui:alpine-3.16-v4.2.1
+
+ARG CLOUDBERRYBACKUP_VERSION_VERSION
 ARG DOCKER_IMAGE_VERSION
 
 # Define working directory.
@@ -57,7 +59,7 @@ COPY rootfs/ /
 # Set internal environment variables.
 RUN \
     set-cont-env APP_NAME "CloudBerry Backup" && \
-    set-cont-env APP_VERSION "$TSMUXER_VERSION" && \
+    set-cont-env APP_VERSION "$CLOUDBERRYBACKUP_VERSION" && \
     set-cont-env DOCKER_IMAGE_VERSION "$DOCKER_IMAGE_VERSION" && \
     true
 

@@ -65,6 +65,7 @@ else
 fi
 
 [ -f /tmp/.upgrade_performed ] || echo "NO" > /tmp/.upgrade_performed
+chown $USER_ID:$GROUP_ID /tmp/.upgrade_performed
 
 # Convert CloudBerry web interface's clear-text password to password hash.
 if [ -f /config/.cbb_web_interface_clear_text_pass ]; then

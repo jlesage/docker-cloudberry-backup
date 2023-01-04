@@ -1,2 +1,0 @@
-#!/bin/sh
-echo "$APP_NAME has been upgraded.  The upgrade can take several minutes to complete.  During this time, the UI only shows a black screen."

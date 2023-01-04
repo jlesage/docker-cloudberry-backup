@@ -4,7 +4,7 @@ set -e # Exit immediately if a command exits with a non-zero status.
 set -u # Treat unset variables as an error.
 
 log() {
-    echo "[cont-init.d] $(basename $0): $*"
+    echo "$*"
 }
 
 OWNER_ID="00000000-0000-0000-0000-000000000000"
@@ -30,7 +30,7 @@ then
         CUR_VERSION="$(cat /opt/local/"CloudBerry Backup"/etc/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
         log "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
         cp -pr /defaults/"Online Backup"/* /config/"Online Backup"/
-        echo "YES" > /tmp/.upgrade_performed
+        su-exec app touch /tmp/.upgrade_performed
     else
         # We are starting for the first time.
         log "CloudBerry Backup config not found, copying default one..."
@@ -51,7 +51,7 @@ else
     CUR_VERSION="$(cat /opt/local/"Online Backup"/"$OWNER_ID"/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
     if [ "$CUR_VERSION" != "$NEW_VERSION" ]; then
         log "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
-        echo "YES" > /tmp/.upgrade_performed
+        su-exec app touch /tmp/.upgrade_performed
 
         # Some files are replaced during normal upgrade.  These are the ones
         # under /opt/local/CloudBerry Backup/etc/config/ from the .deb package.
@@ -63,9 +63,6 @@ else
         /opt/local/"CloudBerry Backup"/bin/cbbUpdater
     fi
 fi
-
-[ -f /tmp/.upgrade_performed ] || echo "NO" > /tmp/.upgrade_performed
-chown $USER_ID:$GROUP_ID /tmp/.upgrade_performed
 
 # Convert CloudBerry web interface's clear-text password to password hash.
 if [ -f /config/.cbb_web_interface_clear_text_pass ]; then
@@ -97,7 +94,7 @@ else
                 --home-dir /dev/null \
                 --password "$PASS" \
                 $CBB_WEB_INTERFACE_USER
-        touch /tmp/.cbb_web_interface_enabled
+        su-exec app touch /tmp/.cbb_web_interface_enabled
     else
         log "CloudBerry Backup web interface disabled: No password defined."
     fi

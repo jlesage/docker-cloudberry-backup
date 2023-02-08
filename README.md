@@ -55,13 +55,13 @@ docker run -d \
     --name=cloudberry-backup \
     -p 5800:5800 \
     -v /docker/appdata/cloudberry-backup:/config:rw \
-    -v $HOME:/storage:ro \
+    -v /home/user:/storage:ro \
     jlesage/cloudberry-backup
 ```
 
 Where:
   - `/docker/appdata/cloudberry-backup`: This is where the application stores its configuration, states, log and any files needing persistency.
-  - `$HOME`: This location contains files from your host that need to be accessible to the application.
+  - `/home/user`: This location contains files from your host that need to be accessible to the application.
 
 Browse to `http://your-host-ip:5800` to access the CloudBerry Backup GUI.
 Files from the host appear under the `/storage` folder in the container.
@@ -218,7 +218,7 @@ services:
       - "5800:5800"
     volumes:
       - "/docker/appdata/cloudberry-backup:/config:rw"
-      - "$HOME:/storage:ro"
+      - "/home/user:/storage:ro"
 ```
 
 ## Docker Image Versioning

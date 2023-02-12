@@ -8,7 +8,7 @@ installation or configuration needed on the client side) or via any VNC client.
 
 ---
 
-[![CloudBerry Backup logo](https://images.weserv.nl/?url=raw.githubusercontent.com/jlesage/docker-templates/master/jlesage/images/cloudberry-backup-icon.png&w=110)](https://www.msp360.com/backup/)[![CloudBerry Backup](https://images.placeholders.dev/?width=544&height=110&fontFamily=Georgia,sans-serif&fontWeight=400&fontSize=52&text=CloudBerry%20Backup&bgColor=rgba(0,0,0,0.0)&textColor=rgba(121,121,121,1))](https://www.msp360.com/backup/)
+[![CloudBerry Backup logo](https://images.weserv.nl/?url=raw.githubusercontent.com/jlesage/docker-templates/master/jlesage/images/cloudberry-backup-icon.png&w=110)](https://www.msp360.com/backup/)[![CloudBerry Backup](https://images.placeholders.dev/?width=544&height=110&fontFamily=monospace&fontWeight=400&fontSize=52&text=CloudBerry%20Backup&bgColor=rgba(0,0,0,0.0)&textColor=rgba(121,121,121,1))](https://www.msp360.com/backup/)
 
 Backup files and folders to cloud storage of your choice: Amazon S3, Azure Blob
 Storage, Google Cloud Storage, HP Cloud, Rackspace Cloud Files, OpenStack,

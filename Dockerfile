@@ -21,7 +21,7 @@ COPY src/cloudberry-backup/build.sh /build-cloudberry-backup.sh
 RUN /build-cloudberry-backup.sh "$CLOUDBERRYBACKUP_URL"
 
 # Pull base image.
-FROM jlesage/baseimage-gui:alpine-3.16-v4.4.0
+FROM jlesage/baseimage-gui:alpine-3.16-v4.4.1
 
 ARG CLOUDBERRYBACKUP_VERSION
 ARG DOCKER_IMAGE_VERSION

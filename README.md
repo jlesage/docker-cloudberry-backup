@@ -1,7 +1,7 @@
 # Docker container for CloudBerry Backup
 [![Docker Image Size](https://img.shields.io/docker/image-size/jlesage/cloudberry-backup/latest)](https://hub.docker.com/r/jlesage/cloudberry-backup/tags) [![Build Status](https://github.com/jlesage/docker-cloudberry-backup/actions/workflows/build-image.yml/badge.svg?branch=master)](https://github.com/jlesage/docker-cloudberry-backup/actions/workflows/build-image.yml) [![GitHub Release](https://img.shields.io/github/release/jlesage/docker-cloudberry-backup.svg)](https://github.com/jlesage/docker-cloudberry-backup/releases/latest) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/JocelynLeSage)
 
-This is a Docker container for [CloudBerry Backup](https://www.msp360.com/backup/).
+This project implements a Docker container for [CloudBerry Backup](https://www.msp360.com/backup/).
 
 The GUI of the application is accessed through a modern web browser (no
 installation or configuration needed on the client side) or via any VNC client.
@@ -76,6 +76,7 @@ docker run [-d] \
     [-p <HOST_PORT>:<CONTAINER_PORT>]... \
     jlesage/cloudberry-backup
 ```
+
 | Parameter | Description |
 |-----------|-------------|
 | -d        | Run the container in the background.  If not set, the container runs in the foreground. |
@@ -326,11 +327,13 @@ Assuming that container's ports are mapped to the same host's ports, the
 graphical interface of the application can be accessed via:
 
   * A web browser:
+
 ```
 http://<HOST IP ADDR>:5800
 ```
 
   * Any VNC client:
+
 ```
 <HOST IP ADDR>:5900
 ```

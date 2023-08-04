@@ -43,6 +43,7 @@ RUN \
 # Install dependencies.
 RUN \
     add-pkg \
+        dpkg \
         mkpasswd
 
 # Generate and install favicons.

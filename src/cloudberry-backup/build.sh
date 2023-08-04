@@ -42,19 +42,19 @@ wget "$CLOUDBERRYBACKUP_URL" -O /tmp/cbb.deb
 log "Installing CloudBerry Backup..."
 dpkg --force-all --install /tmp/cbb.deb
 
-service cloudberry-backup stop
-service cloudberry-backupWA stop
+service msp360-backup stop
+service msp360-backupWA stop
 
 rm /opt/local/"Online Backup"/00000000-0000-0000-0000-000000000000/logs/*
 rm /opt/local/"Online Backup"/00000000-0000-0000-0000-000000000000/config/HID
 
 # Replace libudev.so.0 packaged with CloudBerry Backup, which causes an error
 # when loading the QT xcb plugin.
-rm /opt/local/"CloudBerry Backup"/lib/libudev.so.0
-cp $(find /lib/x86_64-linux-gnu/ -type f -name "libudev.so*") /opt/local/"CloudBerry Backup"/lib/libudev.so.0
+rm /opt/local/"MSP360 Backup"/lib/libudev.so.0
+cp $(find /lib/x86_64-linux-gnu/ -type f -name "libudev.so*") /opt/local/"MSP360 Backup"/lib/libudev.so.0
 
 # Modify installed scripts to use sh instead of bash.
-find /opt/local/"CloudBerry Backup"/bin/ -type f -exec sed 's/^#!\/bin\/bash/#!\/bin\/sh/' -i {} ';'
+find /opt/local/"MSP360 Backup"/bin/ -type f -exec sed 's/^#!\/bin\/bash/#!\/bin\/sh/' -i {} ';'
 
 # Extra libraries that need to be installed into the CloudBerry Backup lib
 # folder.  These libraries are loaded dynamically (dlopen) and are not catched
@@ -71,14 +71,14 @@ EXTRA_LIBS="
 log "Copying extra libraries..."
 for LIB in $EXTRA_LIBS
 do
-    cp -av "$LIB"* /opt/local/"CloudBerry Backup"/lib/
+    cp -av "$LIB"* /opt/local/"MSP360 Backup"/lib/
 done
 
 # Extract dependencies of all binaries and libraries.
 log "Extracting shared library dependencies..."
-find /opt/local/"CloudBerry Backup"/raw_bin /opt/local/"CloudBerry Backup"/lib -type f -executable -or -name 'lib*.so*' | while read BIN
+find /opt/local/"MSP360 Backup"/raw_bin /opt/local/"MSP360 Backup"/lib -type f -executable -or -name 'lib*.so*' -or -name '*.so' | while read BIN
 do
-    RAW_DEPS="$(LD_LIBRARY_PATH="/opt/local/CloudBerry Backup/lib" ldd "$BIN")"
+    RAW_DEPS="$(LD_LIBRARY_PATH="/opt/local/MSP360 Backup/lib" ldd "$BIN")"
     echo "Dependencies for $BIN:"
     echo "================================"
     echo "$RAW_DEPS"
@@ -89,32 +89,32 @@ do
         exit 1
     fi
 
-    LD_LIBRARY_PATH="/opt/local/CloudBerry Backup/lib" ldd "$BIN" | (grep " => " || true) | cut -d'>' -f2 | sed 's/^[[:space:]]*//' | cut -d'(' -f1 | while read dep
+    LD_LIBRARY_PATH="/opt/local/MSP360 Backup/lib" ldd "$BIN" | (grep " => " || true) | cut -d'>' -f2 | sed 's/^[[:space:]]*//' | cut -d'(' -f1 | while read dep
     do
         dep_real="$(realpath "$dep")"
         dep_basename="$(basename "$dep_real")"
 
         # Skip already-processed libraries.
-        [ ! -f "/opt/local/CloudBerry Backup/lib/$dep_basename" ] || continue
+        [ ! -f "/opt/local/MSP360 Backup/lib/$dep_basename" ] || continue
 
         echo "  -> Found library: $dep"
-        cp "$dep_real" "/opt/local/CloudBerry Backup/lib/"
+        cp "$dep_real" "/opt/local/MSP360 Backup/lib/"
         while true; do
             [ -L "$dep" ] || break;
-            ln -sf "$dep_basename" "/opt/local/CloudBerry Backup"/lib/$(basename $dep)
+            ln -sf "$dep_basename" "/opt/local/MSP360 Backup"/lib/$(basename $dep)
             dep="$(readlink -f "$dep")"
         done
     done
 done
 
 log "Patching ELF of binaries..."
-find "/opt/local/CloudBerry Backup/raw_bin" -type f -executable -exec echo "  -> Setting interpreter of {}..." ';' -exec patchelf --set-interpreter "/opt/local/CloudBerry Backup/lib/ld-linux-x86-64.so.2" {} ';'
-find "/opt/local/CloudBerry Backup/raw_bin" -type f -executable -exec echo "  -> Setting rpath of {}..." ';' -exec patchelf --set-rpath '$ORIGIN/../lib' {} ';'
+find "/opt/local/MSP360 Backup/raw_bin" -type f -executable -exec echo "  -> Setting interpreter of {}..." ';' -exec patchelf --set-interpreter "/opt/local/MSP360 Backup/lib/ld-linux-x86-64.so.2" {} ';'
+find "/opt/local/MSP360 Backup/raw_bin" -type f -executable -exec echo "  -> Setting rpath of {}..." ';' -exec patchelf --set-rpath '$ORIGIN/../lib' {} ';'
 
 log "Patching ELF of libraries..."
-find "/opt/local/CloudBerry Backup/lib" -type f -name "lib*" -exec echo "  -> Setting rpath of {}..." ';' -exec patchelf --set-rpath '$ORIGIN' {} ';'
+find "/opt/local/MSP360 Backup/lib" -type f -name "lib*" -exec echo "  -> Setting rpath of {}..." ';' -exec patchelf --set-rpath '$ORIGIN' {} ';'
 
 log "Copying interpreter..."
-cp -av /lib/x86_64-linux-gnu/ld-* "/opt/local/CloudBerry Backup/lib/"
+cp -av /lib/x86_64-linux-gnu/ld-* "/opt/local/MSP360 Backup/lib/"
 
 log "CloudBerry backup build successfully."

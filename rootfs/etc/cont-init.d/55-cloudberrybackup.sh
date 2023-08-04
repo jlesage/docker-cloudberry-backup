@@ -25,12 +25,12 @@ if [ ! -d /opt/local/"Online Backup"/"$OWNER_ID" ]
 then
     # No existing config found.
 
-    if [ -f /opt/local/"CloudBerry Backup"/etc/config/cloudBackup.conf ]; then
+    if [ -f /opt/local/"MSP360 Backup"/etc/config/cloudBackup.conf ]; then
         # We are upgrading from an old version.
-        CUR_VERSION="$(cat /opt/local/"CloudBerry Backup"/etc/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
+        CUR_VERSION="$(cat /opt/local/"MSP360 Backup"/etc/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
         log "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
         cp -pr /defaults/"Online Backup"/* /config/"Online Backup"/
-        su-exec app touch /tmp/.upgrade_performed
+        su-exec "$USER_ID:$GROUP_ID" touch /tmp/.upgrade_performed
     else
         # We are starting for the first time.
         log "CloudBerry Backup config not found, copying default one..."
@@ -41,26 +41,26 @@ then
     if [ -f /config/HID ]; then
         # During upgrade, CBB expects the HID to be at the old location and
         # it must be able to move the file to the new location.
-        mv /config/HID /opt/local/"CloudBerry Backup"/share/
-        chmod a+w /opt/local/"CloudBerry Backup"/share
+        mv /config/HID /opt/local/"MSP360 Backup"/share/
+        chmod a+w /opt/local/"MSP360 Backup"/share
     fi
 
-    /opt/local/"CloudBerry Backup"/bin/cbbUpdater
+    /opt/local/"MSP360 Backup"/bin/cbbUpdater
 else
     # Existing config found.  Check if CloudBerry Backup version changed.
     CUR_VERSION="$(cat /opt/local/"Online Backup"/"$OWNER_ID"/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
     if [ "$CUR_VERSION" != "$NEW_VERSION" ]; then
         log "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
-        su-exec app touch /tmp/.upgrade_performed
+        su-exec "$USER_ID:$GROUP_ID" touch /tmp/.upgrade_performed
 
         # Some files are replaced during normal upgrade.  These are the ones
-        # under /opt/local/CloudBerry Backup/etc/config/ from the .deb package.
+        # under /opt/local/MSP360 Backup/etc/config/ from the .deb package.
         for FILE in cloudBackup.conf wt_config.xml
         do
             cp /defaults/"Online Backup"/"$OWNER_ID"/config/$FILE /opt/local/"Online Backup"/"$OWNER_ID"/config/
         done
 
-        /opt/local/"CloudBerry Backup"/bin/cbbUpdater
+        /opt/local/"MSP360 Backup"/bin/cbbUpdater
     fi
 fi
 
@@ -94,7 +94,7 @@ else
                 --home-dir /dev/null \
                 --password "$PASS" \
                 $CBB_WEB_INTERFACE_USER
-        su-exec app touch /tmp/.cbb_web_interface_enabled
+        su-exec "$USER_ID:$GROUP_ID" touch /tmp/.cbb_web_interface_enabled
     else
         log "CloudBerry Backup web interface disabled: No password defined."
     fi

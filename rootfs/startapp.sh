@@ -29,6 +29,6 @@ done
 set -e
 
 cd /config
-exec /opt/local/"CloudBerry Backup"/bin/cbbGUI
+exec /opt/local/"MSP360 Backup"/bin/cbbGUI
 
 # vim: set ft=sh :

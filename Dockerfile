@@ -8,11 +8,11 @@
 ARG DOCKER_IMAGE_VERSION=
 
 # Define software versions.
-ARG CLOUDBERRYBACKUP_VERSION=4.1.1.137
-ARG CLOUDBERRYBACKUP_TIMESTAMP=20230505033245
+ARG CLOUDBERRYBACKUP_VERSION=4.1.3.513
+ARG CLOUDBERRYBACKUP_TIMESTAMP=20230619174452
 
 # Define software download URLs.
-ARG CLOUDBERRYBACKUP_URL=https://download.msp360.com/ubuntu14_CloudBerryLab_CloudBerryBackup_v${CLOUDBERRYBACKUP_VERSION}_${CLOUDBERRYBACKUP_TIMESTAMP}.deb
+ARG CLOUDBERRYBACKUP_URL=https://download.msp360.com/ubuntu14_MSP360_MSP360Backup_v${CLOUDBERRYBACKUP_VERSION}_${CLOUDBERRYBACKUP_TIMESTAMP}.deb
 
 # Build CloudBerry Backup.
 FROM ubuntu:20.04 AS cbb
@@ -30,7 +30,7 @@ ARG DOCKER_IMAGE_VERSION
 WORKDIR /tmp
 
 # Install CloudBerry Backup.
-COPY --from=cbb ["/opt/local/CloudBerry Backup", "/opt/local/CloudBerry Backup"]
+COPY --from=cbb ["/opt/local/MSP360 Backup", "/opt/local/MSP360 Backup"]
 COPY --from=cbb ["/opt/local/Online Backup", "/defaults/Online Backup"]
 COPY --from=cbb /usr/lib/x86_64-linux-gnu/gconv /usr/lib/x86_64-linux-gnu/gconv
 COPY --from=cbb /usr/lib/locale/locale-archive /usr/lib/locale/locale-archive

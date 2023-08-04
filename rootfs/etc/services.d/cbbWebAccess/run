@@ -3,6 +3,6 @@
 set -e # Exit immediately if a command exits with a non-zero status.
 set -u # Treat unset variables as an error.
 
-exec 2>&1 /opt/local/"CloudBerry Backup"/bin/cbbWebAccess >> /config/"Online Backup"/00000000-0000-0000-0000-000000000000/logs/log_WebAccess_output.log
+exec 2>&1 /opt/local/"MSP360 Backup"/bin/cbbWebAccess >> /config/"Online Backup"/00000000-0000-0000-0000-000000000000/logs/log_WebAccess_output.log
 
 # vim: set ft=sh :

@@ -12,6 +12,7 @@ app:
   name: cloudberry-backup
   friendly_name: CloudBerry Backup
   gui_type: x11
+  base_os: alpine
   project:
     description: |-
       Backup files and folders to cloud storage of your choice: Amazon S3, Azure Blob

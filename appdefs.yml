@@ -10,7 +10,8 @@
 app:
   id: 2
   name: cloudberry-backup
-  friendly_name: CloudBerry Backup
+  friendly_name: MSP360 Backup
+  title_name: MSP360 Backup (formerly CloudBerry)
   gui_type: x11
   base_os: alpine
   project:
@@ -20,6 +21,7 @@ app:
       DreamObjects and other.
     url: https://www.msp360.com/backup/
   unraid:
+    name: CloudBerryBackup
     support_url: https://forums.unraid.net/topic/57217-support-cloudberry-backup/
     category: "Backup:"
   documentation:

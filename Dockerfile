@@ -56,7 +56,7 @@ COPY rootfs/ /
 
 # Set internal environment variables.
 RUN \
-    set-cont-env APP_NAME "CloudBerry Backup" && \
+    set-cont-env APP_NAME "MSP360 Backup" && \
     set-cont-env APP_VERSION "$CLOUDBERRYBACKUP_VERSION" && \
     set-cont-env DOCKER_IMAGE_VERSION "$DOCKER_IMAGE_VERSION" && \
     true
@@ -77,7 +77,7 @@ EXPOSE 43210 43211
 # Metadata.
 LABEL \
       org.label-schema.name="cloudberry-backup" \
-      org.label-schema.description="Docker container for CloudBerry Backup" \
+      org.label-schema.description="Docker container for MSP360 Backup" \
       org.label-schema.version="${DOCKER_IMAGE_VERSION:-unknown}" \
       org.label-schema.vcs-url="https://github.com/jlesage/docker-cloudberry-backup" \
       org.label-schema.schema-version="1.0"

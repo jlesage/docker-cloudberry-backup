@@ -1,4 +1,5 @@
-# Docker container for MSP360 Backup (formerly CloudBerry)[![Release](https://img.shields.io/github/release/jlesage/docker-cloudberry-backup.svg?logo=github&style=for-the-badge)](https://github.com/jlesage/docker-cloudberry-backup/releases/latest)
+# Docker container for MSP360 Backup (formerly CloudBerry)
+[![Release](https://img.shields.io/github/release/jlesage/docker-cloudberry-backup.svg?logo=github&style=for-the-badge)](https://github.com/jlesage/docker-cloudberry-backup/releases/latest)
 [![Docker Image Size](https://img.shields.io/docker/image-size/jlesage/cloudberry-backup/latest?logo=docker&style=for-the-badge)](https://hub.docker.com/r/jlesage/cloudberry-backup/tags)
 [![Docker Pulls](https://img.shields.io/docker/pulls/jlesage/cloudberry-backup?label=Pulls&logo=docker&style=for-the-badge)](https://hub.docker.com/r/jlesage/cloudberry-backup)
 [![Docker Stars](https://img.shields.io/docker/stars/jlesage/cloudberry-backup?label=Stars&logo=docker&style=for-the-badge)](https://hub.docker.com/r/jlesage/cloudberry-backup)

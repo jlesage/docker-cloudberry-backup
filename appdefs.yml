@@ -61,6 +61,12 @@ app:
           saved to `/config/.cbb_web_interface_pass_hash`.  Then, the clear-text password
           file is deleted.
   changelog:
+    - version: 24.09.1
+      date: 2024-09-29
+      changes:
+        - 'Updated baseimage to version 4.6.4, which brings the following changes:'
+        - '2:Fixed web authentication feature with URL path-based reverse proxy.'
+        - '2:Rebuild against latest distro images to get security fixes.'
     - version: 24.08.1
       date: 2024-08-30
       changes:

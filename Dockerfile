@@ -8,8 +8,8 @@
 ARG DOCKER_IMAGE_VERSION=
 
 # Define software versions.
-ARG CLOUDBERRYBACKUP_VERSION=4.4.1.129
-ARG CLOUDBERRYBACKUP_TIMESTAMP=20250605033231
+ARG CLOUDBERRYBACKUP_VERSION=4.4.2.221
+ARG CLOUDBERRYBACKUP_TIMESTAMP=20250728105905
 
 # Define software download URLs.
 ARG CLOUDBERRYBACKUP_URL=https://download.msp360.com/ubuntu14_MSP360_MSP360Backup_v${CLOUDBERRYBACKUP_VERSION}_${CLOUDBERRYBACKUP_TIMESTAMP}.deb
@@ -21,7 +21,7 @@ COPY src/cloudberry-backup/build.sh /build-cloudberry-backup.sh
 RUN /build-cloudberry-backup.sh "$CLOUDBERRYBACKUP_URL"
 
 # Pull base image.
-FROM jlesage/baseimage-gui:alpine-3.16-v4.9.0
+FROM jlesage/baseimage-gui:alpine-3.22-v4.9.0
 
 ARG CLOUDBERRYBACKUP_VERSION
 ARG DOCKER_IMAGE_VERSION

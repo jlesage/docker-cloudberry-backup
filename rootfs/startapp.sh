@@ -16,8 +16,8 @@ notify() {
 }
 
 # Verify if CloudBerry Backup has been upgraded.
-if  [ -f /tmp/.upgrade_performed ]; then
-   notify "$APP_NAME upgraded." "$APP_NAME has been upgraded.  The upgrade can take several minutes to complete.  During this time, the UI might only show a black screen." "INFO"
+if [ -f /tmp/.upgrade_performed ]; then
+   notify "$APP_NAME upgraded." "$APP_NAME has been upgraded. The upgrade can take several minutes to complete. During this time, the UI might only show a black screen." "INFO"
    rm /tmp/.upgrade_performed
 fi
 

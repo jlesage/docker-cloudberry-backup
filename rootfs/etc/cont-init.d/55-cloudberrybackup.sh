@@ -37,7 +37,7 @@ then
         cp -pr /defaults/"Online Backup"/* /config/"Online Backup"/
     fi
 
-    # Location of HID changed.  Make sure to move it.
+    # Location of HID changed. Make sure to move it.
     if [ -f /config/HID ]; then
         # During upgrade, CBB expects the HID to be at the old location and
         # it must be able to move the file to the new location.
@@ -47,13 +47,13 @@ then
 
     /opt/local/"MSP360 Backup"/bin/cbbUpdater
 else
-    # Existing config found.  Check if CloudBerry Backup version changed.
+    # Existing config found. Check if CloudBerry Backup version changed.
     CUR_VERSION="$(cat /opt/local/"Online Backup"/"$OWNER_ID"/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
     if [ "$CUR_VERSION" != "$NEW_VERSION" ]; then
         log "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
         su-exec "$USER_ID:$GROUP_ID" touch /tmp/.upgrade_performed
 
-        # Some files are replaced during normal upgrade.  These are the ones
+        # Some files are replaced during normal upgrade. These are the ones
         # under /opt/local/MSP360 Backup/etc/config/ from the .deb package.
         for FILE in cloudBackup.conf wt_config.xml
         do

@@ -12,6 +12,8 @@ This is a Docker container for [MSP360 Backup](https://www.msp360.com/backup/).
 The graphical user interface (GUI) of the application can be accessed through a
 modern web browser, requiring no installation or configuration on the client
 
+> This Docker container is entirely unofficial and not made by the creators of MSP360 Backup.
+
 ---
 
 [![MSP360 Backup logo](https://images.weserv.nl/?url=raw.githubusercontent.com/jlesage/docker-templates/master/jlesage/images/cloudberry-backup-icon.png&w=110)](https://www.msp360.com/backup/)[![MSP360 Backup](https://images.placeholders.dev/?width=416&height=110&fontFamily=monospace&fontWeight=400&fontSize=52&text=MSP360%20Backup&bgColor=rgba(0,0,0,0.0)&textColor=rgba(121,121,121,1))](https://www.msp360.com/backup/)

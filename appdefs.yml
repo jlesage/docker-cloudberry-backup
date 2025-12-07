@@ -61,6 +61,10 @@ app:
           saved to `/config/.cbb_web_interface_pass_hash`. Then, the clear-text password
           file is deleted.
   changelog:
+    - version: 25.12.2
+      date: 2025-12-07
+      changes:
+        - 'Updated baseimage to version 4.10.3.'
     - version: 25.12.1
       date: 2025-12-02
       changes:

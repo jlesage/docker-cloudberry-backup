@@ -1,0 +1,4 @@
+This folder is intentionnaly left empty. It is used as a workaround for these
+messages:
+  > QFontDatabase: Cannot find font directory /opt/cbl.ssl/Qt-5.7.1/lib/fonts.
+  > Note that Qt no longer ships fonts. Deploy some (from http://dejavu-fonts.org for example) or switch to font

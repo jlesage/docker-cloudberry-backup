@@ -61,6 +61,11 @@ app:
           saved to `/config/.cbb_web_interface_pass_hash`. Then, the clear-text password
           file is deleted.
   changelog:
+    - version: 26.01.1
+      date: 2026-01-04
+      changes:
+        - 'Updated baseimage to version 4.10.6, which brings the following changes:'
+        - '2:On Mac devices, fixed conversion of Command+<Key> shortcuts to the proper Alt+<Key> shortcuts for Linux applications.'
     - version: 25.12.4
       date: 2025-12-22
       changes:

@@ -626,8 +626,6 @@ container:
       type: public
       unraid_template:
         title: CloudBerry Backup Web Interface User
-        description: >-
-          User name to use to login to the CloudBerry Backup's web interface.
         display: advanced
         required: false
         mask: false
@@ -637,9 +635,6 @@ container:
       type: public
       unraid_template:
         title: CloudBerry Backup Web Interface Password
-        description: >-
-          Password to use to login to the CloudBerry Backup's web interface.
-          **Warning**: See documentation for a more secure way to specify the password.
         display: advanced
         required: false
         mask: true

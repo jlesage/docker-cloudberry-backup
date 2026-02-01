@@ -61,6 +61,10 @@ app:
           saved to `/config/.cbb_web_interface_pass_hash`. Then, the clear-text password
           file is deleted.
   changelog:
+    - version: 26.02.1
+      date: 2026-02-01
+      changes:
+        - 'Updated MSP360 Backup to version 4.4.4.425.'
     - version: 26.01.1
       date: 2026-01-04
       changes:

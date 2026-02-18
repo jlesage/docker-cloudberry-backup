@@ -36,14 +36,13 @@ COPY --from=cbb /usr/lib/x86_64-linux-gnu/gconv /usr/lib/x86_64-linux-gnu/gconv
 COPY --from=cbb /usr/lib/locale/locale-archive /usr/lib/locale/locale-archive
 RUN \
     # Setup symbolic links for stuff that need to be outside the container.
-    ln -s /config/"Online Backup" /opt/local/"Online Backup" && \
-    # Fix PAM authentication for web interface.
-    ln -s base-auth /etc/pam.d/common-auth
+    ln -s /config/"Online Backup" /opt/local/"Online Backup"
 
 # Install dependencies.
 RUN \
     add-pkg \
         dpkg \
+        shadow \
         mkpasswd
 
 # Generate and install favicons.

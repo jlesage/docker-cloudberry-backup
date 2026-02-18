@@ -15,7 +15,7 @@ ARG CLOUDBERRYBACKUP_TIMESTAMP=20260120202710
 ARG CLOUDBERRYBACKUP_URL=https://download.msp360.com/ubuntu14_MSP360_MSP360Backup_v${CLOUDBERRYBACKUP_VERSION}_${CLOUDBERRYBACKUP_TIMESTAMP}.deb
 
 # Build CloudBerry Backup.
-FROM ubuntu:20.04 AS cbb
+FROM ubuntu:24.04 AS cbb
 ARG CLOUDBERRYBACKUP_URL
 COPY src/cloudberry-backup/build.sh /build-cloudberry-backup.sh
 RUN /build-cloudberry-backup.sh "$CLOUDBERRYBACKUP_URL"

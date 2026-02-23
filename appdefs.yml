@@ -61,6 +61,11 @@ app:
           saved to `/config/.cbb_web_interface_pass_hash`. Then, the clear-text password
           file is deleted.
   changelog:
+    - version: 26.02.4
+      date: 2026-02-22
+      changes:
+        - 'Updated baseimage to version 4.11.2, bringing the following changes'
+        - '2:Fixed X server failing to find the appropriate Mesa driver on some setups.'
     - version: 26.02.3
       date: 2026-02-19
       changes:

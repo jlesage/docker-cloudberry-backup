@@ -87,17 +87,20 @@ else
 
     # Create a Linux user matching credentials.
     if [ "$PASS" != "UNSET" ]; then
-        useradd --system \
-                --no-create-home \
-                --no-user-group \
-                --shell /sbin/nologin \
-                --home-dir /dev/null \
-                --password "$PASS" \
-                $CBB_WEB_INTERFACE_USER
+        addgroup \
+            -S \
+            nogroup
+        adduser \
+            -S \
+            -H \
+            -s /sbin/nologin \
+            -h /dev/null \
+            "$CBB_WEB_INTERFACE_USER"
+        sed -i "s|^\($CBB_WEB_INTERFACE_USER:\)[^:]*|\1$PASS|" /etc/shadow
         su-exec "$USER_ID:$GROUP_ID" touch /tmp/.cbb_web_interface_enabled
     else
         log "CloudBerry Backup web interface disabled: No password defined."
     fi
 fi
 
-# vim: set ft=sh :
+# vim:ft=sh:ts=4:sw=4:et:sts=4

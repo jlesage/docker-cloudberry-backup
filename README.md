@@ -64,7 +64,7 @@ DreamObjects and other.
    * [Web Notifications](#web-notifications)
    * [Web Terminal](#web-terminal)
    * [GPU Acceleration Support](#gpu-acceleration-support)
-   * [CloudBerry Backup Web Interface](#cloudberry-backup-web-interface)
+   * [MSP360 Backup Web Interface](#msp360-backup-web-interface)
       * [Credentials](#credentials)
    * [Support or Contact](#support-or-contact)
 
@@ -795,9 +795,9 @@ drivers installed, and the GPU device `/dev/dri` must be exposed to the
 container. For example, this is done by adding the `--device /dev/dri`
 argument to the `docker run` command.
 
-## CloudBerry Backup Web Interface
+## MSP360 Backup Web Interface
 
-CloudBerry Backup provides its own web interface. It can be accessed
+MSP360 Backup provides its own web interface. It can be accessed
 via HTTP port 43210 and/or HTTPs port 43211.
 
 ### Credentials

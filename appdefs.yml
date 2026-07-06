@@ -1,7 +1,7 @@
 ---
 
 #
-# Definitions for CloudBerry Backup docker container.
+# Definitions for MSP360 Backup (formerly CloudBerry) docker container.
 #
 # This file is used as data source to generate README.md and unRAID template files
 # from Jinja2 templates.
@@ -26,10 +26,10 @@ app:
     category: "Backup:"
   documentation:
     sections:
-      - title: CloudBerry Backup Web Interface
+      - title: MSP360 Backup Web Interface
         level: 2
         content: |-
-          CloudBerry Backup provides its own web interface. It can be accessed
+          {{ app.friendly_name }} provides its own web interface. It can be accessed
           via HTTP port 43210 and/or HTTPs port 43211.
       - title: Credentials
         level: 3

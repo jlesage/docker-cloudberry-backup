@@ -61,6 +61,10 @@ app:
           saved to `/config/.cbb_web_interface_pass_hash`. Then, the clear-text password
           file is deleted.
   changelog:
+    - version: 26.07.2
+      date: 2026-07-06
+      changes:
+        - 'Fixed an issue creating the user required by the MSP360 Backup web interface.'
     - version: 26.07.1
       date: 2026-07-04
       changes:

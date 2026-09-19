@@ -28,12 +28,12 @@ then
     if [ -f /opt/local/"MSP360 Backup"/etc/config/cloudBackup.conf ]; then
         # We are upgrading from an old version.
         CUR_VERSION="$(cat /opt/local/"MSP360 Backup"/etc/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
-        log "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
+        log "Upgrading MSP360 Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
         cp -pr /defaults/"Online Backup"/* /config/"Online Backup"/
         su-exec "$USER_ID:$GROUP_ID" touch /tmp/.upgrade_performed
     else
         # We are starting for the first time.
-        log "CloudBerry Backup config not found, copying default one..."
+        log "MSP360 Backup config not found, copying default one..."
         cp -pr /defaults/"Online Backup"/* /config/"Online Backup"/
     fi
 
@@ -47,10 +47,10 @@ then
 
     /opt/local/"MSP360 Backup"/bin/cbbUpdater
 else
-    # Existing config found. Check if CloudBerry Backup version changed.
+    # Existing config found. Check if MSP360 Backup version changed.
     CUR_VERSION="$(cat /opt/local/"Online Backup"/"$OWNER_ID"/config/cloudBackup.conf | grep -w buildVersion | cut -d ':' -f2 | tr -d ' ')"
     if [ "$CUR_VERSION" != "$NEW_VERSION" ]; then
-        log "Upgrading CloudBerry Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
+        log "Upgrading MSP360 Backup configuration from version $CUR_VERSION to $NEW_VERSION..."
         su-exec "$USER_ID:$GROUP_ID" touch /tmp/.upgrade_performed
 
         # Some files are replaced during normal upgrade. These are the ones
@@ -64,43 +64,23 @@ else
     fi
 fi
 
-# Convert CloudBerry web interface's clear-text password to password hash.
+# Convert MSP360 Backup web interface's clear-text password to password hash.
 if [ -f /config/.cbb_web_interface_clear_text_pass ]; then
-    cat /config/.cbb_web_interface_clear_text_pass | mkpasswd -m sha-512 -P 0 > /config/.cbb_web_interface_pass_hash
+    /opt/base/bin/mkpasswd "$(cat /config/.cbb_web_interface_clear_text_pass)" > /config/.cbb_web_interface_pass_hash
     rm /config/.cbb_web_interface_clear_text_pass
-    log "Converted CloudBerry web interface's clear-text password to password hash."
+    log "Converted MSP360 Backup web interface's clear-text password to password hash."
 fi
 
-# Handle password for CloudBerry web interface.
-if [ "${CBB_WEB_INTERFACE_USER:-UNSET}" = "UNSET" ]; then
-    log "CloudBerry Backup web interface disabled: No user name defined."
-elif id "$CBB_WEB_INTERFACE_USER" >/dev/null 2>&1; then
-    log "CloudBerry Backup web interface disabled: User name '$CBB_WEB_INTERFACE_USER' is reserved."
-else
-    if [ -f /config/.cbb_web_interface_pass_hash ]; then
-        PASS="$(cat /config/.cbb_web_interface_pass_hash)"
-    elif [ "${CBB_WEB_INTERFACE_PASSWORD:-UNSET}" != "UNSET" ]; then
-        PASS="$(echo "$CBB_WEB_INTERFACE_PASSWORD" | mkpasswd -m sha-512 -P 0)"
-    else
-        PASS=UNSET
-    fi
-
-    # Create a Linux user matching credentials.
-    if [ "$PASS" != "UNSET" ]; then
-        addgroup \
-            -S \
-            nogroup
-        adduser \
-            -S \
-            -H \
-            -s /sbin/nologin \
-            -h /dev/null \
-            "$CBB_WEB_INTERFACE_USER"
-        sed -i "s|^\($CBB_WEB_INTERFACE_USER:\)[^:]*|\1$PASS|" /etc/shadow
-        su-exec "$USER_ID:$GROUP_ID" touch /tmp/.cbb_web_interface_enabled
-    else
-        log "CloudBerry Backup web interface disabled: No password defined."
-    fi
-fi
+# Handle password for MSP360 Backup web interface.
+set +e
+/opt/local/"MSP360 Backup/bin/cbbWebAccessEnabled"
+web_access_enabled=$?
+set -e
+case "$web_access_enabled" in
+    0) log "MSP360 Backup web interface enabled." ;;
+    1) log "MSP360 Backup web interface disabled: No user name defined." ;;
+    2) log "MSP360 Backup web interface disabled: No password defined." ;;
+    *) log "MSP360 Backup web interface disabled." ;;
+esac
 
 # vim:ft=sh:ts=4:sw=4:et:sts=4

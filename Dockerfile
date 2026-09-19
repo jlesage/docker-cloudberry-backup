@@ -41,9 +41,7 @@ RUN \
 # Install dependencies.
 RUN \
     add-pkg \
-        dpkg \
-        shadow \
-        mkpasswd
+        dpkg
 
 # Generate and install favicons.
 RUN \
